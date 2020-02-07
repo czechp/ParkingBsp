@@ -1,0 +1,106 @@
+body{
+    background-color: #404040;
+}
+
+#container{
+    width: 1200px;
+    border: 3px solid white;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    color:white;
+    font-size: 20px;
+}
+
+#topbar{
+    text-align: center;
+    font-size: 30px;
+    border-bottom: 3px solid white;
+    border-radius: 10px;
+    letter-spacing: 3px;
+}
+
+#menu{
+    text-align: center;
+    border-bottom: 3px solid white;
+    border-radius: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 20px;
+    text-align: center;
+    
+}
+
+#title{
+    width: 597px;
+    text-align: center;
+    border-bottom: 3px solid white;
+    border-right: 3px solid white;
+    border-radius: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 25px;
+    min-height: 35px;
+    float: left;
+}
+
+#login{
+    width: 597px;
+    text-align: center;
+    border-bottom: 3px solid white;
+    border-left: 3px solid white;
+    border-radius: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 25px;
+    min-height: 35px;
+    float: left;
+}
+
+#content{
+    clear: both;
+    padding:30px;
+    min-height: 540px;
+    text-align: justify;
+}
+
+#footer{
+    text-align: center;
+    border-top: 3px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.option{
+    margin: 5px;
+    min-width: 50px;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+    display: inline-block;
+    opacity: 0.6;
+ 
+}
+
+.option:hover{
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    color: skyblue;
+}
+
+a:visited{
+    text-decoration: none;
+    color: skyblue;
+}
+
+a:active{
+    text-decoration: none;
+    color: skyblue;
+}
