@@ -10,8 +10,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.validation.Errors;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -72,4 +76,18 @@ public class CarServiceTest {
         assertFalse(result);
     }
 
+    @Test
+    public void findAllCarsTest(){
+        //given
+        List<Car> cars = Arrays.asList(
+                new Car(),
+                new Car(),
+                new Car()
+        );
+        //when
+        when(carRepository.findAll()).thenReturn(cars);
+        List<Car> result = carService.findAllCar();
+        //then
+        assertThat(result, hasSize(cars.size()));
+    }
 }

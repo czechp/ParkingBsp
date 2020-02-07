@@ -40,6 +40,7 @@ public class Car {
     private int amountPark;
 
     public Car() {
+
     }
 
     public Car(@NotBlank @NotNull @Pattern(regexp = "^[A-Z,0-9]{7}$") String regTable, @NotNull String color, @NotNull @NotEmpty String mark, @NotNull @NotEmpty String model) {

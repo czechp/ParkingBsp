@@ -28,7 +28,18 @@ public class Test {
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         Car car = new Car("1234567","red", "volvo", "s40");
+        Car car1 = new Car("5678907","red", "volvo", "s40");
         Report report = new Report("Przemek");
         Report report1 = new Report("Maniek");
+        car.addReport(report);
+        car.addReport(report1);
+
+        car1.addReport(new Report("Przemek"));
+        car1.addReport(new Report("Maniek"));
+
+        carRepository.save(car);
+        carRepository.save(car1);
+
+
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,17 @@ public class CarService {
             return true;
         }
         return false;
+    }
+
+    public List<Car> findAllCar(){
+        try {
+            System.out.println(carRepository.findAll());
+            return carRepository.findAll();
+
+        } catch (Exception e) {
+            log.error("Error during getting all cars", e);
+        }
+        return new ArrayList<>();
     }
 
     private boolean existByRegTable(Car car) {
