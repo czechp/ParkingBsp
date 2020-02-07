@@ -1,0 +1,34 @@
+package com.company.Parking;
+
+import com.company.Parking.model.Car;
+import com.company.Parking.model.Report;
+import com.company.Parking.repository.CarRepository;
+import com.company.Parking.repository.ReportRepository;
+import com.company.Parking.service.CarService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+
+@Component
+public class Test {
+    private CarRepository carRepository;
+    private ReportRepository reportRepository;
+    private CarService carService;
+
+    @Autowired
+    public Test(CarRepository carRepository, ReportRepository reportRepository, CarService carService) {
+        this.carRepository = carRepository;
+        this.reportRepository = reportRepository;
+        this.carService = carService;
+    }
+
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void init(){
+        Car car = new Car("1234567","red", "volvo", "s40");
+        Report report = new Report("Przemek");
+        Report report1 = new Report("Maniek");
+    }
+}
