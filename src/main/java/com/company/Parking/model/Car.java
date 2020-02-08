@@ -26,7 +26,7 @@ public class Car {
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Report> reports = new HashSet<>();
+    private Set<Report> reports = new LinkedHashSet<>();
 
     @NotNull
     @NotEmpty
@@ -55,6 +55,7 @@ public class Car {
     public void addReport(Report report){
         reports.add(report);
         amountPark = reports.size();
+
     }
 
     @Override

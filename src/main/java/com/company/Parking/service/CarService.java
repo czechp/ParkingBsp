@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -40,8 +39,9 @@ public class CarService {
 
     public List<Car> findAllCar(){
         try {
-            System.out.println(carRepository.findAll());
-            return carRepository.findAll();
+            List<Car> result = carRepository.findAll();
+            sortCarReportsByDate(result);
+            return result;
 
         } catch (Exception e) {
             log.error("Error during getting all cars", e);
@@ -74,5 +74,13 @@ public class CarService {
             log.error("Error during getting car by register table", e);
         }
         return Optional.empty();
+    }
+
+    private void sortCarReportsByDate(List<Car> cars){
+        for (Car car : cars) {
+            List<Report> reportList =  new ArrayList<>(car.getReports());
+            Collections.sort(reportList);
+            car.setReports(new LinkedHashSet<>(reportList));
+        }
     }
 }
