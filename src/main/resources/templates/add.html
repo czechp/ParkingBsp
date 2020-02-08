@@ -1,7 +1,6 @@
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -14,54 +13,61 @@
 </head>
 
 <body>
-<div id="container">
-    <div id="topbar">
-        <h1>Parking - automatycy</h1>
-    </div>
-    <div id="menu">
-        <a th:href="@{/}">
-            <div class="option">Pokaż wszystkie</div>
-        </a>
-        <a th:href="@{/add}">
-            <div class="option">Dodaj</div>
-        </a>
-        <a href="">
-            <div class="option">Usuń</div>
-        </a>
-        <a href="">
-            <div class="option">Modyfikuj</div>
-        </a>
-        <a href="">
-            <div class="option">Szukaj</div>
-        </a>
-        <a href="">
-            <div class="option">Użytkownicy</div>
-        </a>
-        <a href="">
-            <div class="option">Panel admina</div>
-        </a>
-        <a href="">
-            <div class="option">Wyloguj</div>
-        </a>
-        <a href="">
-            <div style="clear: both;"></div>
-        </a>
-    </div>
-    <div id="title">Dodaj</div>
-    <div id="login">Login:</div>
-    <div id="content" style="text-align: center">
-        <form method="post" th:object="${car}" th:action="@{/added}">
-            <input type="text" th:field="*{regTable}" />
-            <input type="text" th:field="*{color}" />
-            <input type="text" th:field="*{mark}" />
-            <input type="text" th:field="*{model}" />
-            <input type="submit" value="Dodaj">
-        </form>
-    </div>
+    <div id="container">
+        <div id="topbar">
+            <h1>Parking - automatycy</h1>
+        </div>
+        <div id="menu">
+            <a th:href="@{/}">
+                <div class="option">Pokaż wszystkie</div>
+            </a>
+            <a th:href="@{/add}">
+                <div class="option">Dodaj</div>
+            </a>
+            <a href="">
+                <div class="option">Usuń</div>
+            </a>
+            <a href="">
+                <div class="option">Modyfikuj</div>
+            </a>
+            <a href="">
+                <div class="option">Szukaj</div>
+            </a>
+            <a href="">
+                <div class="option">Użytkownicy</div>
+            </a>
+            <a href="">
+                <div class="option">Panel admina</div>
+            </a>
+            <a href="">
+                <div class="option">Wyloguj</div>
+            </a>
+            <a href="">
+                <div style="clear: both;"></div>
+            </a>
+        </div>
+        <div id="title">Dodaj</div>
+        <div id="login">Login:</div>
+        <div id="content" style="text-align: center">
+            <div class="entryform">
+                <form method="post" th:object="${car}" th:action="@{/added}">
+                    Nr. tablicy rejestracyjnej:<br />
+                    <input type="text" th:field="*{regTable}" /><br />
+                    Kolor:<br />
+                    <input type="text" th:field="*{color}" /><br />
+                    Marka: <br />
+                    <input type="text" th:field="*{mark}" /><br />
+                    Model: <br />
+                    <input type="text" th:field="*{model}" /><br />
+                    <br />
+                    <input type="submit" value="Dodaj"><br />
+                </form>
+            </div>
+        </div>
 
 
-    <div id="footer">Created by PCzech</div>
-</div>
+        <div id="footer">Created by PCzech</div>
+    </div>
 
 
 </body>
