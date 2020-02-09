@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "reports")
@@ -20,11 +20,11 @@ public class Report implements Comparable<Report> {
     private String reporter;
 
     @NotNull
-    private LocalDateTime date;
+    private LocalDate date;
 
     public Report(@NotNull @NotEmpty String reporter) {
         this.reporter = reporter;
-        this.date = LocalDateTime.now();
+        this.date = LocalDate.now();
     }
 
     public Report() {
