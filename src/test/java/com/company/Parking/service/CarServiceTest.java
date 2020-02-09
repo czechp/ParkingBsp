@@ -32,16 +32,14 @@ public class CarServiceTest {
     @Test
     public void createCar_CarNotExitTest() {
         //given
-        Errors errors = mock(Errors.class);
         Car car = new Car("RLE1234", "red", "volvo", "s40");
         Report report = new Report("Andrzej");
         //when
-        when(errors.hasErrors()).thenReturn(false);
         when(carRepository.save(car)).thenReturn(car);
         when(carRepository.findAllByRegTable(car.getRegTable())).thenReturn(Optional.of(car));
-        boolean result = carService.createCar(car, report, errors);
+        boolean result = carService.createCar(car, report);
         //then
-        verify(carRepository, times(2)).findAllByRegTable(car.getRegTable());
+        verify(carRepository, times(3)).findAllByRegTable(car.getRegTable());
         verify(carRepository, times(1)).save(car);
         assertTrue(result);
     }
@@ -49,29 +47,27 @@ public class CarServiceTest {
     @Test
     public void createCar_CarExistTest() {
         //given
-        Errors errors = mock(Errors.class);
         Car car = new Car("RLE1234", "red", "volvo", "s40");
         Report report = new Report("Andrzej");
         //when
-        when(errors.hasErrors()).thenReturn(false);
         when(carRepository.findAllByRegTable(car.getRegTable())).thenReturn(Optional.empty());
         when(carRepository.save(car)).thenReturn(car);
-        boolean result = carService.createCar(car, report, errors);
+        boolean result = carService.createCar(car, report);
         //then
-        verify(carRepository, times(1)).findAllByRegTable(car.getRegTable());
+        verify(carRepository, times(2)).findAllByRegTable(car.getRegTable());
         verify(carRepository, times(1)).save(car);
         assertTrue(result);
     }
 
     @Test
-    public void createCar_HasErrorsTest(){
+    public void createCar_CarHasEntryTodayAlready(){
         //given
         Car car = new Car("RLE1234", "red", "volvo", "s40");
         Report report = new Report("Andrzej");
-        Errors errors = mock(Errors.class);
+        car.addReport(report);
         //when
-        when(errors.hasErrors()).thenReturn(true);
-        boolean result = carService.createCar(car, report, errors);
+        when(carRepository.findAllByRegTable(car.getRegTable())).thenReturn(Optional.of(car));
+        boolean result = carService.createCar(car, report);
         //then
         assertFalse(result);
     }

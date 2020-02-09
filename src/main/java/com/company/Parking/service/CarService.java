@@ -6,9 +6,8 @@ import com.company.Parking.repository.CarRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Errors;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -22,8 +21,8 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public boolean createCar(Car car, Report report, Errors errors) {
-        if (!errors.hasErrors()) {
+    public boolean createCar(Car car, Report report) {
+        if (!isCarHasEntryToday(car)) {
             if (existByRegTable(car)) {
                 Car existCar = getCarByRegTable(car.getRegTable()).get();
                 existCar.addReport(report);
@@ -37,7 +36,7 @@ public class CarService {
         return false;
     }
 
-    public List<Car> findAllCar(){
+    public List<Car> findAllCar() {
         try {
             List<Car> result = carRepository.findAll();
             sortCarReportsByDate(result);
@@ -76,11 +75,22 @@ public class CarService {
         return Optional.empty();
     }
 
-    private void sortCarReportsByDate(List<Car> cars){
+    private void sortCarReportsByDate(List<Car> cars) {
         for (Car car : cars) {
-            List<Report> reportList =  new ArrayList<>(car.getReports());
+            List<Report> reportList = new ArrayList<>(car.getReports());
             Collections.sort(reportList);
             car.setReports(new LinkedHashSet<>(reportList));
         }
+    }
+
+    private boolean isCarHasEntryToday(Car car) {
+        Optional<Car> result = getCarByRegTable(car.getRegTable());
+        if (result.isPresent()) {
+            for (Report report : result.get().getReports()) {
+                if (report.getDate().equals(LocalDate.now()))
+                    return true;
+            }
+        }
+        return false;
     }
 }

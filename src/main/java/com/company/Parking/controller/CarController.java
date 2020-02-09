@@ -2,13 +2,11 @@ package com.company.Parking.controller;
 
 import com.company.Parking.model.Car;
 import com.company.Parking.model.Report;
-import com.company.Parking.repository.CarRepository;
 import com.company.Parking.repository.ReportRepository;
 import com.company.Parking.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +27,7 @@ public class CarController {
     }
 
     @GetMapping
-    public ModelAndView main(){
+    public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView("index");
 
         modelAndView.addObject("cars", carService.findAllCar());
@@ -37,7 +35,7 @@ public class CarController {
     }
 
     @GetMapping("/add")
-    public ModelAndView addNewCar(){
+    public ModelAndView addNewCar() {
         ModelAndView modelAndView = new ModelAndView("add");
         modelAndView.addObject("car", new Car());
         return modelAndView;
@@ -46,10 +44,12 @@ public class CarController {
 
     //ADD PRINCIPAL
     @PostMapping("/added")
-    public String addedNewCar(@ModelAttribute @Valid Car car, Errors errors){
-        if(!carService.createCar(car, new Report("unknown"), errors))
-            return "add_failure";
+    public String addedNewCar(@ModelAttribute @Valid Car car, Errors errors) {
+        if (errors.hasErrors())
+            return "add_failure_data_incorrect";
+        else if (!carService.createCar(car, new Report("Unknown")))
+            return "entry_already_added";
         return "redirect:/";
     }
-    
+
 }
