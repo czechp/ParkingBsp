@@ -7,11 +7,9 @@ import com.company.Parking.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -39,7 +37,7 @@ public class CarController {
 
     @GetMapping("/add")
     public ModelAndView addNewCar() {
-        ModelAndView modelAndView = new ModelAndView("add");
+        ModelAndView modelAndView = new ModelAndView("Add/add");
         modelAndView.addObject("car", new Car());
         return modelAndView;
     }
@@ -49,20 +47,25 @@ public class CarController {
     @PostMapping("/added")
     public String addedNewCar(@ModelAttribute @Valid Car car, Errors errors) {
         if (errors.hasErrors())
-            return "add_failure_data_incorrect";
+            return "Add/add_failure_data_incorrect";
         else if (!carService.createCar(car, new Report("Unknown")))
-            return "entry_already_added";
+            return "Add/entry_already_added";
         return "redirect:/";
     }
 
     @GetMapping("/car_delete")
     public ModelAndView carDelete(){
-        ModelAndView modelAndView = new ModelAndView("get_car_to_delete");
+        ModelAndView modelAndView = new ModelAndView("Delete/get_car_to_delete");
         List<@Pattern(regexp = "^[A-Z,0-9]{7}$") String> regs = carService.findAllCar().stream()
                 .map(Car::getRegTable)
                 .collect(Collectors.toList());
         modelAndView.addObject("regs", regs);
         return modelAndView;
+    }
+
+    @GetMapping("/car_delete_details")
+    public String carDeleteDetails(@RequestParam(name = "reg_table") String reg){
+        return "Delete/get_car_to_delete_details";
     }
 
 }

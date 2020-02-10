@@ -48,6 +48,26 @@ public class CarService {
         return new ArrayList<>();
     }
 
+    public boolean deleteCarByRegTable(String regTable){
+        Optional<Car> carByRegTable = getCarByRegTable(regTable);
+        if(carByRegTable.isPresent()){
+            deleteCar(carByRegTable.get());
+            return true;
+        }
+        return false;
+    }
+
+
+    private boolean deleteCar(Car car){
+        try {
+            carRepository.delete(car);
+            return true;
+        } catch (Exception e) {
+            log.error("Error during removing car", e);
+        }
+        return false;
+    }
+
     private boolean existByRegTable(Car car) {
         Optional<Car> result = Optional.empty();
         try {

@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.validation.Errors;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +59,7 @@ public class CarServiceTest {
     }
 
     @Test
-    public void createCar_CarHasEntryTodayAlready(){
+    public void createCarTest_CarHasEntryTodayAlready() {
         //given
         Car car = new Car("RLE1234", "red", "volvo", "s40");
         Report report = new Report("Andrzej");
@@ -73,7 +72,7 @@ public class CarServiceTest {
     }
 
     @Test
-    public void findAllCarsTest(){
+    public void findAllCarsTest() {
         //given
         List<Car> cars = Arrays.asList(
                 new Car(),
@@ -85,5 +84,30 @@ public class CarServiceTest {
         List<Car> result = carService.findAllCar();
         //then
         assertThat(result, hasSize(cars.size()));
+    }
+
+    @Test
+    public void deleteCarByRegTableTest_CarExist() {
+        //given
+        Car car = new Car();
+        String regTable = "1234567";
+        car.setRegTable(regTable);
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        doNothing().when(carRepository).delete(car);
+        boolean result = carService.deleteCarByRegTable(regTable);
+        //then
+        assertTrue(result);
+    }
+
+    @Test
+    public void deleteCarByRegTableTest_CarNotExist(){
+        //given
+        String regTable = "1234567";
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.empty());
+        boolean result = carService.deleteCarByRegTable(regTable);
+        //then
+        assertFalse(result);
     }
 }
