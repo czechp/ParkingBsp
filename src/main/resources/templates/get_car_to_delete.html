@@ -46,27 +46,20 @@
                 <div style="clear: both;"></div>
             </a>
         </div>
-        <div id="title">Dodaj</div>
+        <div id="title">Wybierz rejestrację: </div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <h2>Dodaj: </h2>
+            <h2>Wybierz rejestracje: </h2>
             <div class="entryform">
-                <form method="post" th:object="${car}" th:action="@{/added}">
-                    Nr. tablicy rejestracyjnej:<br />
-                    <input type="text" th:field="*{regTable}" /><br />
-                    Kolor:<br />
-                    <input type="text" th:field="*{color}" /><br />
-                    Marka: <br />
-                    <input type="text" th:field="*{mark}" /><br />
-                    Model: <br />
-                    <input type="text" th:field="*{model}" /><br />
+                <form>
+                    <select>
+                        <option th:each="reg : ${regs}" th:value="${reg}" th:text="${reg}"></option>
+                    </select>
                     <br />
-                    <input type="submit" value="Dodaj"><br />
+                    <input type="submit" value="Wybierz" />
                 </form>
             </div>
         </div>
-
-
         <div id="footer">Created by PCzech</div>
     </div>
 
