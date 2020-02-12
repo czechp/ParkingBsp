@@ -7,8 +7,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "cars")
@@ -51,8 +52,7 @@ public class Car {
     }
 
 
-
-    public void addReport(Report report){
+    public void addReport(Report report) {
         reports.add(report);
         amountPark = reports.size();
 
