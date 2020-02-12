@@ -48,9 +48,9 @@ public class CarService {
         return new ArrayList<>();
     }
 
-    public boolean deleteCarByRegTable(String regTable){
+    public boolean deleteCarByRegTable(String regTable) {
         Optional<Car> carByRegTable = getCarByRegTable(regTable);
-        if(carByRegTable.isPresent()){
+        if (carByRegTable.isPresent()) {
             deleteCar(carByRegTable.get());
             return true;
         }
@@ -58,7 +58,7 @@ public class CarService {
     }
 
 
-    private boolean deleteCar(Car car){
+    private boolean deleteCar(Car car) {
         try {
             carRepository.delete(car);
             return true;

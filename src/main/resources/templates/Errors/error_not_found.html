@@ -1,6 +1,7 @@
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
 
 <head>
     <meta charset="utf-8">
@@ -24,7 +25,7 @@
         <a th:href="@{/add}">
             <div class="option">Dodaj</div>
         </a>
-        <a th:href="@{/car_delete}">
+        <a th:href="@{car_delete}">
             <div class="option">Usuń</div>
         </a>
         <a href="">
@@ -46,21 +47,17 @@
             <div style="clear: both;"></div>
         </a>
     </div>
-    <div id="title">Wybierz rejestrację:</div>
+    <div id="title">Error</div>
     <div id="login">Login:</div>
     <div id="content" style="text-align: center">
-        <h2>Wybierz rejestracje: </h2>
-        <div class="entryform">
-            <form method="GET" th:action="@{/car_delete_details}">
-                <select th:name="reg_table">
-                    <option th:each="reg : ${regs}" th:value="${reg}" th:text="${reg}"></option>
-                </select>
-                <br/>
-                <input type="submit" value="Usuń" th:formaction="@{/car_delete_all}"/>
-                <input type="submit" value="Usuń raporty" th:formaction="@{/car_delete_details}"/>
-            </form>
+        <div class="message">
+            Podana strona nie istnieje
+            <br/>
+            Sprawdź adres
         </div>
     </div>
+
+
     <div id="footer">Created by PCzech</div>
 </div>
 

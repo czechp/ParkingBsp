@@ -4,12 +4,17 @@ import com.company.Parking.model.Car;
 import com.company.Parking.model.Report;
 import com.company.Parking.repository.ReportRepository;
 import com.company.Parking.service.CarService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -17,7 +22,8 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
-public class CarController {
+@Slf4j
+public class CarController implements ErrorController {
 
     CarService carService;
 
@@ -62,6 +68,7 @@ public class CarController {
         return modelAndView;
     }
 
+    //ADD PRINCIPAL
     @GetMapping("/car_delete_all")
     public String carDeleteAll(@RequestParam(name = "reg_table") String regTable) {
         if (carService.deleteCarByRegTable(regTable))
@@ -69,9 +76,26 @@ public class CarController {
         return "Delete/car_deleted_failed";
     }
 
+    //ADD PRINCIPAL
     @GetMapping("/car_delete_details")
     public String carDeleteDetails(@RequestParam(name = "reg_table") String reg) {
         return "Delete/get_car_to_delete_details";
     }
 
+    @RequestMapping("/error")
+    public String handleError(HttpServletRequest request) {
+        int statusCode = Integer.valueOf(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString());
+        log.error("Error -------------- " + HttpStatus.valueOf(statusCode));
+
+        if (statusCode == HttpStatus.NOT_FOUND.value())
+            return "Errors/error_not_found";
+
+        return "Errors/error";
+    }
+
+
+    @Override
+    public String getErrorPath() {
+        return "/error";
+    }
 }
