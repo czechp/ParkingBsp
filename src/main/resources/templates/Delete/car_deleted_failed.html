@@ -25,7 +25,7 @@
         <a th:href="@{/add}">
             <div class="option">Dodaj</div>
         </a>
-        <a href="">
+        <a th:href="@{car_delete}">
             <div class="option">Usuń</div>
         </a>
         <a href="">
@@ -47,10 +47,12 @@
             <div style="clear: both;"></div>
         </a>
     </div>
-    <div id="title">Dodaj</div>
+    <div id="title">Usuń</div>
     <div id="login">Login:</div>
     <div id="content" style="text-align: center">
-        <div class="message">Ten samochód został już dzisiaj zgłoszony</div>
+        <div class="message">Błąd podczas usuwania
+        <br/>
+        Prawdopodbnie obiekt nie istnieje !!!</div>
     </div>
 
 

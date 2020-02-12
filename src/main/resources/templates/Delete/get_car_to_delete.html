@@ -56,7 +56,8 @@
                         <option th:each="reg : ${regs}" th:value="${reg}" th:text="${reg}"></option>
                     </select>
                     <br />
-                    <input type="submit" value="Wybierz" />
+                    <input type="submit" value = "Usuń" th:formaction="@{/car_delete_all}"/>
+                    <input type="submit" value="Usuń raporty" th:formaction="@{/car_delete_details}"/>
                 </form>
             </div>
         </div>

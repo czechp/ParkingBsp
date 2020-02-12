@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -54,7 +53,7 @@ public class CarController {
     }
 
     @GetMapping("/car_delete")
-    public ModelAndView carDelete(){
+    public ModelAndView carDelete() {
         ModelAndView modelAndView = new ModelAndView("Delete/get_car_to_delete");
         List<@Pattern(regexp = "^[A-Z,0-9]{7}$") String> regs = carService.findAllCar().stream()
                 .map(Car::getRegTable)
@@ -63,8 +62,15 @@ public class CarController {
         return modelAndView;
     }
 
+    @GetMapping("/car_delete_all")
+    public String carDeleteAll(@RequestParam(name = "reg_table") String regTable) {
+        if (carService.deleteCarByRegTable(regTable))
+            return "Delete/car_deleted";
+        return "Delete/car_deleted_failed";
+    }
+
     @GetMapping("/car_delete_details")
-    public String carDeleteDetails(@RequestParam(name = "reg_table") String reg){
+    public String carDeleteDetails(@RequestParam(name = "reg_table") String reg) {
         return "Delete/get_car_to_delete_details";
     }
 
