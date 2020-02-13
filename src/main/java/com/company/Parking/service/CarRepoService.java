@@ -12,18 +12,18 @@ import java.util.*;
 
 @Service
 @Slf4j
-public class CarService {
+public class CarRepoService {
 
     private CarRepository carRepository;
 
     @Autowired
-    public CarService(CarRepository carRepository) {
+    public CarRepoService(CarRepository carRepository) {
         this.carRepository = carRepository;
     }
 
     public boolean createCar(Car car, Report report) {
         if (!isCarHasEntryToday(car)) {
-            if (existByRegTable(car)) {
+            if (existsCar(car)) {
                 Car existCar = getCarByRegTable(car.getRegTable()).get();
                 existCar.addReport(report);
                 saveNew(existCar);
@@ -57,6 +57,24 @@ public class CarService {
         return false;
     }
 
+    public boolean deleteReportFromCar(String regTable, LocalDate reportDate) {
+        Optional<Car> optCar = getCarByRegTable(regTable);
+        if (optCar.isPresent()) {
+            Car car = optCar.get();
+            Optional<Report> report = car.getReports().stream()
+                    .filter(x -> x.getDate().equals(reportDate))
+                    .findFirst();
+            if (report.isPresent()) {
+                car.getReports().remove(report.get());
+                if (car.getReports().isEmpty())
+                    deleteCar(car);
+                else
+                    saveNew(car);
+                return true;
+            }
+        }
+        return false;
+    }
 
     private boolean deleteCar(Car car) {
         try {
@@ -68,7 +86,7 @@ public class CarService {
         return false;
     }
 
-    private boolean existByRegTable(Car car) {
+    private boolean existsCar(Car car) {
         Optional<Car> result = Optional.empty();
         try {
             result = carRepository.findAllByRegTable(car.getRegTable());
@@ -78,6 +96,7 @@ public class CarService {
         return result.isPresent();
     }
 
+
     private void saveNew(Car car) {
         try {
             carRepository.save(car);
@@ -86,7 +105,7 @@ public class CarService {
         }
     }
 
-    private Optional<Car> getCarByRegTable(String regTable) {
+    public Optional<Car> getCarByRegTable(String regTable) {
         try {
             return carRepository.findAllByRegTable(regTable);
         } catch (Exception e) {
@@ -113,4 +132,5 @@ public class CarService {
         }
         return false;
     }
+
 }

@@ -3,7 +3,8 @@ package com.company.Parking.controller;
 import com.company.Parking.model.Car;
 import com.company.Parking.model.Report;
 import com.company.Parking.repository.ReportRepository;
-import com.company.Parking.service.CarService;
+import com.company.Parking.service.CarRepoService;
+import com.company.Parking.service.ConvertionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -25,18 +27,18 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CarController implements ErrorController {
 
-    CarService carService;
+    CarRepoService carRepoService;
 
     @Autowired
-    public CarController(CarService carService, ReportRepository reportRepository) {
-        this.carService = carService;
+    public CarController(CarRepoService carRepoService, ReportRepository reportRepository) {
+        this.carRepoService = carRepoService;
     }
 
     @GetMapping
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView("index");
 
-        modelAndView.addObject("cars", carService.findAllCar());
+        modelAndView.addObject("cars", carRepoService.findAllCar());
         return modelAndView;
     }
 
@@ -53,7 +55,7 @@ public class CarController implements ErrorController {
     public String addedNewCar(@ModelAttribute @Valid Car car, Errors errors) {
         if (errors.hasErrors())
             return "Add/add_failure_data_incorrect";
-        else if (!carService.createCar(car, new Report("Unknown")))
+        else if (!carRepoService.createCar(car, new Report("Unknown")))
             return "Add/entry_already_added";
         return "redirect:/";
     }
@@ -61,7 +63,7 @@ public class CarController implements ErrorController {
     @GetMapping("/car_delete")
     public ModelAndView carDelete() {
         ModelAndView modelAndView = new ModelAndView("Delete/get_car_to_delete");
-        List<@Pattern(regexp = "^[A-Z,0-9]{7}$") String> regs = carService.findAllCar().stream()
+        List<@Pattern(regexp = "^[A-Z,0-9]{7}$") String> regs = carRepoService.findAllCar().stream()
                 .map(Car::getRegTable)
                 .collect(Collectors.toList());
         modelAndView.addObject("regs", regs);
@@ -71,20 +73,35 @@ public class CarController implements ErrorController {
     //ADD PRINCIPAL
     @GetMapping("/car_delete_all")
     public String carDeleteAll(@RequestParam(name = "reg_table") String regTable) {
-        if (carService.deleteCarByRegTable(regTable))
+        if (carRepoService.deleteCarByRegTable(regTable))
             return "Delete/car_deleted";
         return "Delete/car_deleted_failed";
     }
 
     //ADD PRINCIPAL
     @GetMapping("/car_delete_details")
-    public String carDeleteDetails(@RequestParam(name = "reg_table") String reg) {
-        return "Delete/get_car_to_delete_details";
+    public ModelAndView carDeleteDetails(@RequestParam(name = "reg_table") String reg) {
+        Optional<Car> carByRegTable = carRepoService.getCarByRegTable(reg);
+        ModelAndView modelAndView = new ModelAndView("Delete/car_deleted_failed");
+        if (carByRegTable.isPresent()) {
+            modelAndView.addObject("carDetails", carByRegTable.get());
+            modelAndView.setViewName("Delete/get_car_to_delete_details");
+            return modelAndView;
+        }
+        return modelAndView;
+    }
+
+    //ADD PRINCIPAL
+    @GetMapping("/car_delete_details_deleted")
+    public String carDeleteDetailDeleted(@RequestParam(name = "reportDate") String reportDate, @RequestParam(name = "regTable") String regTable) {
+        if (carRepoService.deleteReportFromCar(regTable, ConvertionService.stringToLocalDate(reportDate)))
+            return "Delete/car_deleted";
+        return "Delete/car_deleted_failed";
     }
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {
-        int statusCode = Integer.valueOf(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString());
+        int statusCode = Integer.parseInt(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString());
         log.error("Error -------------- " + HttpStatus.valueOf(statusCode));
 
         if (statusCode == HttpStatus.NOT_FOUND.value())
