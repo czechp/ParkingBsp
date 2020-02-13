@@ -4,20 +4,22 @@ import com.company.Parking.model.Car;
 import com.company.Parking.model.Report;
 import com.company.Parking.repository.CarRepository;
 import com.company.Parking.repository.ReportRepository;
-import com.company.Parking.service.CarService;
+import com.company.Parking.service.CarRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class Test {
     private CarRepository carRepository;
     private ReportRepository reportRepository;
-    private CarService carService;
+    private CarRepoService carService;
 
     @Autowired
-    public Test(CarRepository carRepository, ReportRepository reportRepository, CarService carService) {
+    public Test(CarRepository carRepository, ReportRepository reportRepository, CarRepoService carService) {
         this.carRepository = carRepository;
         this.reportRepository = reportRepository;
         this.carService = carService;
@@ -38,7 +40,6 @@ public class Test {
 
         carRepository.save(car);
         carRepository.save(car1);
-
 
     }
 }

@@ -9,24 +9,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CarServiceTest {
+public class CarRepoServiceTest {
 
     @Mock
     private CarRepository carRepository;
 
     @InjectMocks
-    private CarService carService;
+    private CarRepoService carService;
 
     @Test
     public void createCar_CarNotExitTest() {
@@ -101,7 +101,7 @@ public class CarServiceTest {
     }
 
     @Test
-    public void deleteCarByRegTableTest_CarNotExist(){
+    public void deleteCarByRegTableTest_CarNotExist() {
         //given
         String regTable = "1234567";
         //when
@@ -110,4 +110,87 @@ public class CarServiceTest {
         //then
         assertFalse(result);
     }
+
+    @Test
+    public void getCarByRegTableTest_CarExist() {
+        //given
+        Car car = new Car("1234567", "xxxxx", "aaaaaa", "asdas");
+        String regTable = "1234567";
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        Optional<Car> result = carService.getCarByRegTable(regTable);
+        //then
+        assertTrue(result.isPresent());
+        assertEquals(car, result.get());
+    }
+
+    @Test
+    public void getCarByRegTableTest_CarNotExist(){
+        //given
+        String regTable  = "1234567";
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.empty());
+        Optional<Car> result = carService.getCarByRegTable(regTable);
+        //then
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void deleteReportFromCarTest(){
+        //given
+        String regTable = "1234567";
+        Car car = new Car(regTable, "qqqq", "wwwww", "eeeee");
+        car.addReport(new Report("xxxxxxxx"));
+        car.addReport(new Report("ssssssss"));
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        when(carRepository.save(car)).thenReturn(car);
+        boolean result = carService.deleteReportFromCar(regTable, LocalDate.now());
+        //then
+        assertTrue(result);
+        verify(carRepository, times(1)).save(car);
+    }
+
+    @Test
+    public void deleteReportFromCarTest_CarNotExists(){
+        //given
+        String regTable = "1234567";
+        Car car = new Car(regTable, "qqqq", "wwwww", "eeeee");
+        car.addReport(new Report("xxxxxxxx"));
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.empty());
+        boolean result = carService.deleteReportFromCar(regTable, LocalDate.now());
+        //then
+        assertFalse(result);
+    }
+
+    @Test
+    public void deleteReportFromCarTest_ReportNotExists(){
+        //given
+        String regTable = "1234567";
+        Car car = new Car(regTable, "qqqq", "wwwww", "eeeee");
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        boolean result = carService.deleteReportFromCar(regTable, LocalDate.now());
+        //then
+        assertFalse(result);
+    }
+
+    @Test
+    public void deleteReportFromCarTest_AfterDeleteCarIsEmpty(){
+        //given
+        String regTable = "1234567";
+        Car car = new Car(regTable, "qqqq", "wwwww", "eeeee");
+        car.addReport(new Report("xxxxxxxx"));
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        doNothing().when(carRepository).delete(car);
+        boolean result = carService.deleteReportFromCar(regTable, LocalDate.now());
+        //then
+        assertTrue(result);
+        verify(carRepository, times(1)).delete(car);
+
+    }
+
+
 }

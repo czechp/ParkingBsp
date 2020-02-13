@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
     Optional<Car> findAllByRegTable(String regTable);
+    boolean existsCarByRegTable(String regTable);
 }
