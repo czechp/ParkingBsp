@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/")
 @Slf4j
-public class CarController implements ErrorController {
+public class CarController{
 
     CarRepoService carRepoService;
 
@@ -121,22 +121,5 @@ public class CarController implements ErrorController {
     public String carModifyDetailsModified(@ModelAttribute Car car){
         System.out.println(car);
         return "redirect:/";
-    }
-
-    @GetMapping("/error")
-    public String handleError(HttpServletRequest request) {
-        int statusCode = Integer.parseInt(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString());
-        log.error("Error -------------- " + HttpStatus.valueOf(statusCode));
-
-        if (statusCode == HttpStatus.NOT_FOUND.value())
-            return "Errors/error_not_found";
-
-        return "Errors/error";
-    }
-
-
-    @Override
-    public String getErrorPath() {
-        return "/error";
     }
 }
