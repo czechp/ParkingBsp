@@ -1,6 +1,7 @@
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
 
 <head>
     <meta charset="utf-8">
@@ -24,7 +25,7 @@
         <a th:href="@{/add}">
             <div class="option">Dodaj</div>
         </a>
-        <a th:href="@{/car_delete}">
+        <a th:href="@{car_delete}">
             <div class="option">Usuń</div>
         </a>
         <a th:href="@{/car_modify}">
@@ -46,25 +47,15 @@
             <div style="clear: both;"></div>
         </a>
     </div>
-    <div id="title">Modyfikuj:</div>
+    <div id="title">Error</div>
     <div id="login">Login:</div>
     <div id="content" style="text-align: center">
-        <form th:object="${carDetails}" method="GET" th:action = "@{car_modify_details_modified}">
-            Dane auta o rejestracji:  <br/>
-            <input type="text" th:value="*{regTable}" th:name = "regTable" readonly="true"  style="height: fit-content; font-size: 30px; text-align: center; background-color: black; color: white;">
-            <div class="entryform">
-                Marka:<br/>
-                <input type="text" th:name = "mark" th:value = "*{mark}"/><br/>
-                Model:<br/>
-                <input type="text" th:name = "model" th:value = "*{model}"/><br/>
-                Kolor:<br/>
-                <input type="text" th:name = "color" th:value = "*{color}"/><br/>
-
-                <br/>
-                <input type="submit" value="Modyfikuj"/>
-            </div>
-        </form>
+        <div class="message">
+            Podany zasób nie istnieje
+        </div>
     </div>
+
+
     <div id="footer">Created by PCzech</div>
 </div>
 

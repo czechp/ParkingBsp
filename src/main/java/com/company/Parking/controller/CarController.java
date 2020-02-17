@@ -117,9 +117,18 @@ public class CarController{
         return modelAndView;
     }
 
-    @PostMapping("/car_modify_details_modified")
-    public String carModifyDetailsModified(@ModelAttribute Car car){
-        System.out.println(car);
-        return "redirect:/";
+    @GetMapping("/car_modify_details_modified")
+    public String carModifyDetailsModified(@RequestParam(value = "regTable") String regTable, @RequestParam(value = "mark") String mark,
+                                           @RequestParam(value = "model")String model, @RequestParam(value = "color") String color){
+        Optional<Car> optionalCar = carRepoService.getCarByRegTable(regTable);
+
+        if(optionalCar.isPresent()){
+            Car car = optionalCar.get();
+            car.setMark(mark);
+            car.setModel(model);
+            car.setColor(color);
+            return carRepoService.saveModifiedCar(car)?"Modify/car_modified" : "Modify/car_modify_failed";
+        }
+        return "Modify/car_modify_failed";
     }
 }
