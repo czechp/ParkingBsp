@@ -1,6 +1,7 @@
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
 
 <head>
     <meta charset="utf-8">
@@ -24,7 +25,7 @@
         <a th:href="@{/add}">
             <div class="option">Dodaj</div>
         </a>
-        <a th:href="@{/car_delete}">
+        <a th:href="@{car_delete}">
             <div class="option">Usuń</div>
         </a>
         <a th:href="@{/car_modify}">
@@ -46,37 +47,14 @@
             <div style="clear: both;"></div>
         </a>
     </div>
-    <div id="title">Pokaż wszystkie</div>
+    <div id="title">Error</div>
     <div id="login">Login:</div>
     <div id="content" style="text-align: center">
-        <tr th:each="car:${cars}">
-            <div class="car">
-                Id:
-                <td th:text=${car.id}></td>
-                <br/>
-                Rejestracja:
-                <td th:text=${car.regTable.toUpperCase()}></td>
-                <br/>
-                Kolor:
-                <td th:text=${car.color.toUpperCase()}></td>
-                <br/>
-                Marka:
-                <td th:text=${car.mark.toUpperCase()}></td>
-                <br/>
-                Model:
-                <td th:text=${car.model.toUpperCase()}></td>
-                <br/>
-                Ilość parkowań:
-                <td th:text="${car.amountPark}"></td>
-                <br/>
-                <div class="report" th:each="report, i :${car.reports}">
-                    <span th:text="${i.index + 1}"></span>.<br/>
-                    Zgłaszający: <span th:text="${report.reporter}"></span><br/>
-                    Data: <span th:text="${report.date}"></span><br/>
-                </div>
-            </div>
-
-        </tr>
+        <div class="message">
+            Podana strona nie istnieje
+            <br/>
+            Sprawdź adres
+        </div>
     </div>
 
 

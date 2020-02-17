@@ -7,8 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -19,6 +21,12 @@ public class CarRepoService {
     @Autowired
     public CarRepoService(CarRepository carRepository) {
         this.carRepository = carRepository;
+    }
+
+    public List<String> getRegsList() {
+        return findAllCar().stream()
+                .map(Car::getRegTable)
+                .collect(Collectors.toList());
     }
 
     public boolean createCar(Car car, Report report) {
@@ -76,6 +84,16 @@ public class CarRepoService {
         return false;
     }
 
+    public boolean saveModifiedCar(@Valid  Car car){
+        try {
+            Car result = carRepository.save(car);
+            return result.equals(car);
+        } catch (Exception e) {
+            log.error("Error during saving modified car", e);
+        }
+        return false;
+    }
+
     private boolean deleteCar(Car car) {
         try {
             carRepository.delete(car);
@@ -95,7 +113,6 @@ public class CarRepoService {
         }
         return result.isPresent();
     }
-
 
     private void saveNew(Car car) {
         try {

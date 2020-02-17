@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/")
 @Slf4j
-public class CarController implements ErrorController {
+public class CarController{
 
     CarRepoService carRepoService;
 
@@ -63,12 +63,11 @@ public class CarController implements ErrorController {
     @GetMapping("/car_delete")
     public ModelAndView carDelete() {
         ModelAndView modelAndView = new ModelAndView("Delete/get_car_to_delete");
-        List<@Pattern(regexp = "^[A-Z,0-9]{7}$") String> regs = carRepoService.findAllCar().stream()
-                .map(Car::getRegTable)
-                .collect(Collectors.toList());
-        modelAndView.addObject("regs", regs);
+        modelAndView.addObject("regs", carRepoService.getRegsList());
         return modelAndView;
     }
+
+
 
     //ADD PRINCIPAL
     @GetMapping("/car_delete_all")
@@ -99,20 +98,37 @@ public class CarController implements ErrorController {
         return "Delete/car_deleted_failed";
     }
 
-    @RequestMapping("/error")
-    public String handleError(HttpServletRequest request) {
-        int statusCode = Integer.parseInt(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString());
-        log.error("Error -------------- " + HttpStatus.valueOf(statusCode));
 
-        if (statusCode == HttpStatus.NOT_FOUND.value())
-            return "Errors/error_not_found";
-
-        return "Errors/error";
+    @GetMapping("/car_modify")
+    public ModelAndView carModify(){
+        ModelAndView modelAndView = new ModelAndView("Modify/get_car_to_modify");
+        modelAndView.addObject("regs", carRepoService.getRegsList());
+        return modelAndView;
     }
 
+    @GetMapping("/car_modify_details")
+    public ModelAndView carModifyDetails(@RequestParam(name = "reg_table") String regTable){
+        ModelAndView modelAndView = new ModelAndView("Modify/car_modify_failed");
+        Optional<Car> car = carRepoService.getCarByRegTable(regTable);
+        if(car.isPresent()){
+            modelAndView.setViewName("Modify/get_car_to_modify_details");
+            modelAndView.addObject("carDetails", car.get());
+        }
+        return modelAndView;
+    }
 
-    @Override
-    public String getErrorPath() {
-        return "/error";
+    @GetMapping("/car_modify_details_modified")
+    public String carModifyDetailsModified(@RequestParam(value = "regTable") String regTable, @RequestParam(value = "mark") String mark,
+                                           @RequestParam(value = "model")String model, @RequestParam(value = "color") String color){
+        Optional<Car> optionalCar = carRepoService.getCarByRegTable(regTable);
+
+        if(optionalCar.isPresent()){
+            Car car = optionalCar.get();
+            car.setMark(mark);
+            car.setModel(model);
+            car.setColor(color);
+            return carRepoService.saveModifiedCar(car)?"Modify/car_modified" : "Modify/car_modify_failed";
+        }
+        return "Modify/car_modify_failed";
     }
 }

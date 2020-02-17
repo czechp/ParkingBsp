@@ -27,7 +27,7 @@
             <a th:href="@{/car_delete}">
                 <div class="option">Usuń</div>
             </a>
-            <a href="">
+            <a th:href="@{/car_modify}">
                 <div class="option">Modyfikuj</div>
             </a>
             <a href="">
@@ -51,8 +51,7 @@
         <div id="content" style="text-align: center">
             <form th:object="${carDetails}" method="GET" th:action="@{/car_delete_details_deleted}">
                 Lista raportów dla auta o rejestracji: <br/>
-                <input type="text" th:value = "*{regTable}"/ style="height: fit-content; width: fit-content; font-size: 30px; text-align: center; background-color: black; color: white;"
-                 readonly="true" th:name ="regTable">
+                <input type="text" th:value = "*{regTable}" readonly="true" disabled style="height: fit-content; font-size: 30px; text-align: center; background-color: black; color: white;">
                 <div class="entryform">
                     <select th:name="reportDate">
                         <option th:each="report : *{reports}" th:value=${report.date} th:text=${report.date}></option>
