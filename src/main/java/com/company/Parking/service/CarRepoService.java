@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -19,6 +20,12 @@ public class CarRepoService {
     @Autowired
     public CarRepoService(CarRepository carRepository) {
         this.carRepository = carRepository;
+    }
+
+    public List<String> getRegsList() {
+        return findAllCar().stream()
+                .map(Car::getRegTable)
+                .collect(Collectors.toList());
     }
 
     public boolean createCar(Car car, Report report) {

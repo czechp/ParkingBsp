@@ -63,12 +63,11 @@ public class CarController implements ErrorController {
     @GetMapping("/car_delete")
     public ModelAndView carDelete() {
         ModelAndView modelAndView = new ModelAndView("Delete/get_car_to_delete");
-        List<@Pattern(regexp = "^[A-Z,0-9]{7}$") String> regs = carRepoService.findAllCar().stream()
-                .map(Car::getRegTable)
-                .collect(Collectors.toList());
-        modelAndView.addObject("regs", regs);
+        modelAndView.addObject("regs", carRepoService.getRegsList());
         return modelAndView;
     }
+
+
 
     //ADD PRINCIPAL
     @GetMapping("/car_delete_all")
@@ -99,7 +98,32 @@ public class CarController implements ErrorController {
         return "Delete/car_deleted_failed";
     }
 
-    @RequestMapping("/error")
+
+    @GetMapping("/car_modify")
+    public ModelAndView carModify(){
+        ModelAndView modelAndView = new ModelAndView("Modify/get_car_to_modify");
+        modelAndView.addObject("regs", carRepoService.getRegsList());
+        return modelAndView;
+    }
+
+    @GetMapping("/car_modify_details")
+    public ModelAndView carModifyDetails(@RequestParam(name = "reg_table") String regTable){
+        ModelAndView modelAndView = new ModelAndView("Modify/car_modify_failed");
+        Optional<Car> car = carRepoService.getCarByRegTable(regTable);
+        if(car.isPresent()){
+            modelAndView.setViewName("Modify/get_car_to_modify_details");
+            modelAndView.addObject("carDetails", car.get());
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("/car_modify_details_modified")
+    public String carModifyDetailsModified(@ModelAttribute Car car){
+        System.out.println(car);
+        return "redirect:/";
+    }
+
+    @GetMapping("/error")
     public String handleError(HttpServletRequest request) {
         int statusCode = Integer.parseInt(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE).toString());
         log.error("Error -------------- " + HttpStatus.valueOf(statusCode));

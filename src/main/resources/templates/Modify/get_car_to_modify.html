@@ -1,7 +1,6 @@
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -25,7 +24,7 @@
         <a th:href="@{/add}">
             <div class="option">Dodaj</div>
         </a>
-        <a th:href="@{car_delete}">
+        <a th:href="@{/car_delete}">
             <div class="option">Usuń</div>
         </a>
         <a th:href="@{/car_modify}">
@@ -47,15 +46,20 @@
             <div style="clear: both;"></div>
         </a>
     </div>
-    <div id="title">Error</div>
+    <div id="title">Wybierz rejestrację:</div>
     <div id="login">Login:</div>
     <div id="content" style="text-align: center">
-        <div class="message">
-            Błąd aplikacji
+        <h2>Wybierz rejestracje: </h2>
+        <div class="entryform">
+            <form method="GET" th:object=${regs} th:action = "@{/car_modify_details}">
+                <select th:name="reg_table">
+                    <option th:each="reg : ${regs}" th:value="${reg}" th:text="${reg}"></option>
+                </select>
+                <input type="submit" value="Wybierz" />
+                <br/>
+            </form>
         </div>
     </div>
-
-
     <div id="footer">Created by PCzech</div>
 </div>
 
