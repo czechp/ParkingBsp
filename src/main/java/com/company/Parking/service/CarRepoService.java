@@ -84,7 +84,7 @@ public class CarRepoService {
         return false;
     }
 
-    public boolean saveModifiedCar(@Valid  Car car){
+    public boolean saveModifiedCar(@Valid Car car) {
         try {
             Car result = carRepository.save(car);
             return result.equals(car);

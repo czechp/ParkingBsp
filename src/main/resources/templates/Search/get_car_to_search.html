@@ -46,19 +46,24 @@
                 <div style="clear: both;"></div>
             </a>
         </div>
-        <div id="title">Usuń raporty:</div>
+        <div id="title">Wybierz rejestrację:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <form th:object="${carDetails}" method="GET" th:action="@{/car_delete_details_deleted}">
-                Lista raportów dla auta o rejestracji: <br/>
-                <input type="text" th:value = "*{regTable}" readonly="true" disabled style="height: fit-content; font-size: 30px; text-align: center; background-color: black; color: white;">
-                <div class="entryform">
-                    <select th:name="reportDate">
-                        <option th:each="report : *{reports}" th:value=${report.date} th:text=${report.date}></option>
-                    </select>
-                    <input type="submit" value="Usuń" />
-                </div>
-            </form>
+            <h2>Szukaj: </h2>
+            <div class="entryform">
+                <form>
+                    <h2>Wpisz wartość wyszukiwania: </h2>
+                    <input type="text" name="content">
+                    <h2>Wybierz klucz wyszukiwania: </h2>
+                    <ul>
+                        <span th:each="field : ${fields}">
+                            <input type="radio" th:id="${field}" th:value="${field}" th:name="field">
+                            <label th:for="${field}" th:text="${field}"></label>
+                            <br />
+                        </span>
+                    </ul>
+                </form>
+            </div>
         </div>
         <div id="footer">Created by PCzech</div>
     </div>
