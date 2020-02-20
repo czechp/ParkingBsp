@@ -137,8 +137,9 @@ public class CarRepoService {
                 return searchCarsById(content);
             case "Numer rejestracji":
                 return searchCarsByRegTable(content);
+            default:
+                return Arrays.asList();
         }
-        return Arrays.asList();
     }
 
     private List<Car> searchCarsByRegTable(String regTable) {
