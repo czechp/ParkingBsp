@@ -107,7 +107,7 @@ public class CarRepoService {
     private boolean existsCar(Car car) {
         Optional<Car> result = Optional.empty();
         try {
-            result = carRepository.findAllByRegTable(car.getRegTable());
+            result = carRepository.findByRegTable(car.getRegTable());
         } catch (Exception e) {
             log.error("Error during searching car by car register table", e);
         }
@@ -124,7 +124,7 @@ public class CarRepoService {
 
     public Optional<Car> getCarByRegTable(String regTable) {
         try {
-            return carRepository.findAllByRegTable(regTable);
+            return carRepository.findByRegTable(regTable);
         } catch (Exception e) {
             log.error("Error during getting car by register table", e);
         }
@@ -132,19 +132,30 @@ public class CarRepoService {
     }
 
     public List<Car> searchCarByField(String field, String content) {
-        switch (field){
+        switch (field) {
             case "Id":
-                return searchCarById(content);
+                return searchCarsById(content);
+            case "Numer rejestracji":
+                return searchCarsByRegTable(content);
         }
         return Arrays.asList();
     }
 
-    private List<Car> searchCarById(String id) {
+    private List<Car> searchCarsByRegTable(String regTable) {
+        try {
+             return carRepository.findAllByRegTable(regTable.replaceAll(" ", ""));
+        } catch (Exception e) {
+            log.error("Error during finding cars by Register table", e);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Car> searchCarsById(String id) {
         try {
             Long idL = Long.valueOf(id);
             return carRepository.findAllById(idL);
         } catch (NumberFormatException e) {
-            log.error("Cannot parse ID -> Long or Error during finding cars by ID");
+            log.error("Cannot parse ID -> Long or Error during finding cars by ID", e);
         }
 
         return new ArrayList<>();

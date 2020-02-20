@@ -39,5 +39,6 @@ public class Test {
         carRepository.save(car);
         carRepository.save(car1);
 
+        System.out.println(carRepository.findAllByRegTable("1234567"));
     }
 }

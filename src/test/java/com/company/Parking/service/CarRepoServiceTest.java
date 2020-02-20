@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,10 +35,10 @@ public class CarRepoServiceTest {
         Report report = new Report("Andrzej");
         //when
         when(carRepository.save(car)).thenReturn(car);
-        when(carRepository.findAllByRegTable(car.getRegTable())).thenReturn(Optional.of(car));
+        when(carRepository.findByRegTable(car.getRegTable())).thenReturn(Optional.of(car));
         boolean result = carService.createCar(car, report);
         //then
-        verify(carRepository, times(3)).findAllByRegTable(car.getRegTable());
+        verify(carRepository, times(3)).findByRegTable(car.getRegTable());
         verify(carRepository, times(1)).save(car);
         assertTrue(result);
     }
@@ -50,11 +49,11 @@ public class CarRepoServiceTest {
         Car car = new Car("RLE1234", "red", "volvo", "s40");
         Report report = new Report("Andrzej");
         //when
-        when(carRepository.findAllByRegTable(car.getRegTable())).thenReturn(Optional.empty());
+        when(carRepository.findByRegTable(car.getRegTable())).thenReturn(Optional.empty());
         when(carRepository.save(car)).thenReturn(car);
         boolean result = carService.createCar(car, report);
         //then
-        verify(carRepository, times(2)).findAllByRegTable(car.getRegTable());
+        verify(carRepository, times(2)).findByRegTable(car.getRegTable());
         verify(carRepository, times(1)).save(car);
         assertTrue(result);
     }
@@ -66,7 +65,7 @@ public class CarRepoServiceTest {
         Report report = new Report("Andrzej");
         car.addReport(report);
         //when
-        when(carRepository.findAllByRegTable(car.getRegTable())).thenReturn(Optional.of(car));
+        when(carRepository.findByRegTable(car.getRegTable())).thenReturn(Optional.of(car));
         boolean result = carService.createCar(car, report);
         //then
         assertFalse(result);
@@ -94,7 +93,7 @@ public class CarRepoServiceTest {
         String regTable = "1234567";
         car.setRegTable(regTable);
         //when
-        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        when(carRepository.findByRegTable(regTable)).thenReturn(Optional.of(car));
         doNothing().when(carRepository).delete(car);
         boolean result = carService.deleteCarByRegTable(regTable);
         //then
@@ -106,7 +105,7 @@ public class CarRepoServiceTest {
         //given
         String regTable = "1234567";
         //when
-        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.empty());
+        when(carRepository.findByRegTable(regTable)).thenReturn(Optional.empty());
         boolean result = carService.deleteCarByRegTable(regTable);
         //then
         assertFalse(result);
@@ -118,7 +117,7 @@ public class CarRepoServiceTest {
         Car car = new Car("1234567", "xxxxx", "aaaaaa", "asdas");
         String regTable = "1234567";
         //when
-        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        when(carRepository.findByRegTable(regTable)).thenReturn(Optional.of(car));
         Optional<Car> result = carService.getCarByRegTable(regTable);
         //then
         assertTrue(result.isPresent());
@@ -130,7 +129,7 @@ public class CarRepoServiceTest {
         //given
         String regTable  = "1234567";
         //when
-        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.empty());
+        when(carRepository.findByRegTable(regTable)).thenReturn(Optional.empty());
         Optional<Car> result = carService.getCarByRegTable(regTable);
         //then
         assertFalse(result.isPresent());
@@ -144,7 +143,7 @@ public class CarRepoServiceTest {
         car.addReport(new Report("xxxxxxxx"));
         car.addReport(new Report("ssssssss"));
         //when
-        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        when(carRepository.findByRegTable(regTable)).thenReturn(Optional.of(car));
         when(carRepository.save(car)).thenReturn(car);
         boolean result = carService.deleteReportFromCar(regTable, LocalDate.now());
         //then
@@ -159,7 +158,7 @@ public class CarRepoServiceTest {
         Car car = new Car(regTable, "qqqq", "wwwww", "eeeee");
         car.addReport(new Report("xxxxxxxx"));
         //when
-        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.empty());
+        when(carRepository.findByRegTable(regTable)).thenReturn(Optional.empty());
         boolean result = carService.deleteReportFromCar(regTable, LocalDate.now());
         //then
         assertFalse(result);
@@ -171,7 +170,7 @@ public class CarRepoServiceTest {
         String regTable = "1234567";
         Car car = new Car(regTable, "qqqq", "wwwww", "eeeee");
         //when
-        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        when(carRepository.findByRegTable(regTable)).thenReturn(Optional.of(car));
         boolean result = carService.deleteReportFromCar(regTable, LocalDate.now());
         //then
         assertFalse(result);
@@ -184,7 +183,7 @@ public class CarRepoServiceTest {
         Car car = new Car(regTable, "qqqq", "wwwww", "eeeee");
         car.addReport(new Report("xxxxxxxx"));
         //when
-        when(carRepository.findAllByRegTable(regTable)).thenReturn(Optional.of(car));
+        when(carRepository.findByRegTable(regTable)).thenReturn(Optional.of(car));
         doNothing().when(carRepository).delete(car);
         boolean result = carService.deleteReportFromCar(regTable, LocalDate.now());
         //then
@@ -213,5 +212,29 @@ public class CarRepoServiceTest {
         //then
         assertThat(result, hasSize(1));
         assertTrue(result.contains(car1));
+    }
+
+    @Test
+    public void searchCarByFieldTest_byRegTable(){
+        //given
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Car car3 = new Car();
+
+        car1.setRegTable("1234567");
+        car2.setRegTable("1234567");
+        car3.setRegTable("123123");
+
+        String regTable = "1234567";
+        String field = "Numer rejestracji";
+
+        //when
+        when(carRepository.findAllByRegTable(regTable)).thenReturn(Arrays.asList(car1, car2));
+        List<Car> result = carService.searchCarByField(field, regTable);
+        //then
+        assertThat(result, hasSize(2));
+        assertTrue(result.contains(car1));
+        assertTrue(result.contains(car2));
+
     }
 }
