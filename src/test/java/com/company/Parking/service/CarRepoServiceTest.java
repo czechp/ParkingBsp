@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -192,4 +193,25 @@ public class CarRepoServiceTest {
 
     }
 
+    @Test
+    public void searchCarByFieldTest_byId(){
+        //given
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Car car3 = new Car();
+
+        car1.setId(1L);
+        car1.setId(2L);
+        car1.setId(3L);
+
+        Long id = 1L;
+        String field = "Id";
+
+        //when
+        when(carRepository.findAllById(id)).thenReturn(Arrays.asList(car1));
+        List<Car> result = carService.searchCarByField(field, id.toString());
+        //then
+        assertThat(result, hasSize(1));
+        assertTrue(result.contains(car1));
+    }
 }

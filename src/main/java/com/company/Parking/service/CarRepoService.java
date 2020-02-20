@@ -131,6 +131,25 @@ public class CarRepoService {
         return Optional.empty();
     }
 
+    public List<Car> searchCarByField(String field, String content) {
+        switch (field){
+            case "Id":
+                return searchCarById(content);
+        }
+        return Arrays.asList();
+    }
+
+    private List<Car> searchCarById(String id) {
+        try {
+            Long idL = Long.valueOf(id);
+            return carRepository.findAllById(idL);
+        } catch (NumberFormatException e) {
+            log.error("Cannot parse ID -> Long or Error during finding cars by ID");
+        }
+
+        return new ArrayList<>();
+    }
+
     private void sortCarReportsByDate(List<Car> cars) {
         for (Car car : cars) {
             List<Report> reportList = new ArrayList<>(car.getReports());

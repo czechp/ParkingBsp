@@ -46,26 +46,31 @@
                 <div style="clear: both;"></div>
             </a>
         </div>
-        <div id="title">Wybierz rejestrację:</div>
+        <div id="title">Wynik wyszukiwania:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <h2>Szukaj: </h2>
-            <div class="entryform">
-                <form method="GET" th:action="@{/car_search_result}">
-                    <h2>Wpisz wartość wyszukiwania: </h2>
-                    <input type="text" name="content">
+            <h2>Wynik wyszukiwania: </h2>
+            <tr th:each="car:${cars}">
+                <div class="car">
+                    Id:
+                    <td th:text=${car.id}></td>
+                    <br/> Rejestracja:
+                    <td th:text=${car.regTable.toUpperCase()}></td>
+                    <br/> Kolor:
+                    <td th:text=${car.color.toUpperCase()}></td>
+                    <br/> Marka:
+                    <td th:text=${car.mark.toUpperCase()}></td>
+                    <br/> Model:
+                    <td th:text=${car.model.toUpperCase()}></td>
+                    <br/> Ilość parkowań:
+                    <td th:text="${car.amountPark}"></td>
+                    <br/>
+                    <div class="report" th:each="report, i :${car.reports}">
+                        <span th:text="${i.index + 1}"></span>.<br/> Zgłaszający: <span th:text="${report.reporter}"></span><br/> Data: <span th:text="${report.date}"></span><br/>
+                    </div>
+                </div>
 
-                    <h2>Wybierz klucz wyszukiwania: </h2>
-                    <ul>
-                        <span th:each="field : ${fields}">
-                            <input type="radio" th:id="${field}" th:value="${field}" th:name="field">
-                            <label th:for="${field}" th:text="${field}"></label>
-                            <br />
-                        </span>
-                    </ul>
-                    <input type="submit" value="Szukaj" />
-                </form>
-            </div>
+            </tr>
         </div>
         <div id="footer">Created by PCzech</div>
     </div>

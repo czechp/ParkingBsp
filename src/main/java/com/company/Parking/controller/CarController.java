@@ -2,7 +2,6 @@ package com.company.Parking.controller;
 
 import com.company.Parking.model.Car;
 import com.company.Parking.model.Report;
-import com.company.Parking.repository.ReportRepository;
 import com.company.Parking.service.CarRepoService;
 import com.company.Parking.service.CarService;
 import com.company.Parking.service.ConvertionService;
@@ -14,9 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -131,9 +127,16 @@ public class CarController {
     }
 
     @GetMapping("/car_search")
-    public ModelAndView carSearch(){
+    public ModelAndView carSearch() {
         ModelAndView modelAndView = new ModelAndView("Search/get_car_to_search");
         modelAndView.addObject("fields", carService.getFieldsName());
+        return modelAndView;
+    }
+
+    @GetMapping("/car_search_result")
+    public ModelAndView carSearchResult(@RequestParam(value = "field") String field, @RequestParam(value = "content") String content) {
+        ModelAndView modelAndView = new ModelAndView("Search/get_car_to_search_result");
+        modelAndView.addObject("cars", carRepoService.searchCarByField(field, content));
         return modelAndView;
     }
 
