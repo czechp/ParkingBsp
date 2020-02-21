@@ -52,7 +52,7 @@
         <h2>Wybierz rejestracje: </h2>
         <div class="entryform">
             <form method="GET" th:object=${regs} th:action = "@{/car_modify_details}">
-                <select th:name="reg_table">
+                <select th:name="regTable">
                     <option th:each="reg : ${regs}" th:value="${reg}" th:text="${reg}"></option>
                 </select>
                 <input type="submit" value="Wybierz" />

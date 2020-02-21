@@ -63,17 +63,15 @@ public class CarController {
     }
 
 
-    //ADD Permission
     @GetMapping("/car_delete_all")
-    public String carDeleteAll(@RequestParam(name = "reg_table") String regTable) {
+    public String carDeleteAll(@RequestParam(name = "regTable") String regTable) {
         if (carRepoService.deleteCarByRegTable(regTable))
             return "Delete/car_deleted";
         return "Delete/car_deleted_failed";
     }
 
-    //ADD Permission
     @GetMapping("/car_delete_details")
-    public ModelAndView carDeleteDetails(@RequestParam(name = "reg_table") String reg) {
+    public ModelAndView carDeleteDetails(@RequestParam(name = "regTable") String reg) {
         Optional<Car> carByRegTable = carRepoService.getCarByRegTable(reg);
         ModelAndView modelAndView = new ModelAndView("Delete/car_deleted_failed");
         if (carByRegTable.isPresent()) {
@@ -84,7 +82,6 @@ public class CarController {
         return modelAndView;
     }
 
-    //ADD Permission
     @GetMapping("/car_delete_details_deleted")
     public String carDeleteDetailDeleted(@RequestParam(name = "reportDate") String reportDate, @RequestParam(name = "regTable") String regTable) {
         if (carRepoService.deleteReportFromCar(regTable, ConvertionService.stringToLocalDate(reportDate)))
@@ -101,7 +98,7 @@ public class CarController {
     }
 
     @GetMapping("/car_modify_details")
-    public ModelAndView carModifyDetails(@RequestParam(name = "reg_table") String regTable) {
+    public ModelAndView carModifyDetails(@RequestParam(name = "regTable") String regTable) {
         ModelAndView modelAndView = new ModelAndView("Modify/car_modify_failed");
         Optional<Car> car = carRepoService.getCarByRegTable(regTable);
         if (car.isPresent()) {
