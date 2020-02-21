@@ -246,8 +246,8 @@ public class CarRepoServiceTest {
         Car car3 = new Car();
 
         car1.setColor("qwerty");
-        car1.setColor("qwerty1");
-        car1.setColor("qwerty2");
+        car2.setColor("qwerty1");
+        car3.setColor("qwerty2");
 
         String color = "qwerty";
         String field = "Kolor";
@@ -258,6 +258,62 @@ public class CarRepoServiceTest {
         //then
         assertThat(result, hasSize(1));
         assertTrue(result.contains(car1));
+    }
+
+    @Test
+    public void searchCarByFieldTest_byMark(){
+        //given
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Car car3 = new Car();
+
+        car1.setMark("Volvo");
+        car2.setMark("Volvo");
+        car3.setMark("Volvo");
+
+        String mark = "Volvo";
+        String field = "Marka";
+
+        //when
+        when(carRepository.findAllByMark(mark)).thenReturn(Arrays.asList(car1));
+        List<Car> result = carService.searchCarByField(field, mark);
+        //then
+        assertThat(result, hasSize(1));
+        assertTrue(result.contains(car1));
+    }
+
+    @Test
+    public void searchCarByFieldTest_byModel(){
+        //given
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Car car3 = new Car();
+
+        car1.setModel("S40");
+        car2.setModel("S401");
+        car3.setModel("S402");
+
+        String model = "S40";
+        String field = "Model";
+
+        //when
+        when(carRepository.findAllByModel(model)).thenReturn(Arrays.asList(car1));
+        List<Car> result = carService.searchCarByField(field, model);
+        //then
+        assertThat(result, hasSize(1));
+        assertTrue(result.contains(car1));
+    }
+
+    @Test
+    public void searchCarByFieldTest_noneField(){
+        //given
+        String field = "xxxxxx";
+        String content = "xxxxxx";
+        //when
+        List<Car> cars = carService.searchCarByField(field, content);
+        //then
+        assertThat(cars, hasSize(0));
 
     }
+
 }

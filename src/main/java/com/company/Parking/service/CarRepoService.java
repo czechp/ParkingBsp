@@ -139,9 +139,31 @@ public class CarRepoService {
                 return searchCarsByRegTable(content);
             case "Kolor":
                 return searchCarByColor(content);
+            case "Marka":
+                return searchCarByMark(content);
+            case "Model":
+                return searchCarByModel(content);
             default:
                 return Arrays.asList();
         }
+    }
+
+    private List<Car> searchCarByMark(String mark) {
+        try {
+             return carRepository.findAllByMark(mark);
+        } catch (Exception e) {
+            log.error("Error during finding cars by mark", e);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Car> searchCarByModel(String model) {
+        try {
+            return carRepository.findAllByModel(model);
+        } catch (Exception e) {
+            log.error("Error during finding cars by model", e);
+        }
+        return new ArrayList<>();
     }
 
     private List<Car> searchCarByColor(String color) {

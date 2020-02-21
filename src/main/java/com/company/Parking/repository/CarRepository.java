@@ -13,6 +13,8 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findAllById(Long id);
     List<Car> findAllByRegTable(String regTable);
     List<Car> findAllByColor(String color);
+    List<Car> findAllByMark(String mark);
+    List<Car> findAllByModel(String model);
 
     boolean existsCarByRegTable(String regTable);
 }

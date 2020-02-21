@@ -137,11 +137,6 @@ public class CarController {
     public ModelAndView carSearchResult(@RequestParam(value = "field") String field, @RequestParam(value = "content") String content) {
         ModelAndView modelAndView = new ModelAndView("Search/get_car_to_search_result");
         modelAndView.addObject("cars", carRepoService.searchCarByField(field, content));
-
-
-
-        System.out.println(field);
-        System.out.println(content);
         return modelAndView;
     }
 
