@@ -84,7 +84,7 @@ public class CarRepoService {
         return false;
     }
 
-    public boolean saveModifiedCar(@Valid  Car car){
+    public boolean saveModifiedCar(@Valid Car car) {
         try {
             Car result = carRepository.save(car);
             return result.equals(car);
@@ -107,7 +107,7 @@ public class CarRepoService {
     private boolean existsCar(Car car) {
         Optional<Car> result = Optional.empty();
         try {
-            result = carRepository.findAllByRegTable(car.getRegTable());
+            result = carRepository.findByRegTable(car.getRegTable());
         } catch (Exception e) {
             log.error("Error during searching car by car register table", e);
         }
@@ -124,11 +124,75 @@ public class CarRepoService {
 
     public Optional<Car> getCarByRegTable(String regTable) {
         try {
-            return carRepository.findAllByRegTable(regTable);
+            return carRepository.findByRegTable(regTable);
         } catch (Exception e) {
             log.error("Error during getting car by register table", e);
         }
         return Optional.empty();
+    }
+
+    public List<Car> searchCarByField(String field, String content) {
+        switch (field) {
+            case "Id":
+                return searchCarsById(content);
+            case "Numer rejestracji":
+                return searchCarsByRegTable(content);
+            case "Kolor":
+                return searchCarByColor(content);
+            case "Marka":
+                return searchCarByMark(content);
+            case "Model":
+                return searchCarByModel(content);
+            default:
+                return Arrays.asList();
+        }
+    }
+
+    private List<Car> searchCarByMark(String mark) {
+        try {
+             return carRepository.findAllByMark(mark);
+        } catch (Exception e) {
+            log.error("Error during finding cars by mark", e);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Car> searchCarByModel(String model) {
+        try {
+            return carRepository.findAllByModel(model);
+        } catch (Exception e) {
+            log.error("Error during finding cars by model", e);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Car> searchCarByColor(String color) {
+        try {
+            return carRepository.findAllByColor(color.replaceAll(" ",""));
+        } catch (Exception e) {
+            log.error("Error during finding cars by color", e);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Car> searchCarsByRegTable(String regTable) {
+        try {
+             return carRepository.findAllByRegTable(regTable.replaceAll(" ", ""));
+        } catch (Exception e) {
+            log.error("Error during finding cars by Register table", e);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<Car> searchCarsById(String id) {
+        try {
+            Long idL = Long.valueOf(id);
+            return carRepository.findAllById(idL);
+        } catch (NumberFormatException e) {
+            log.error("Cannot parse ID -> Long or Error during finding cars by ID", e);
+        }
+
+        return new ArrayList<>();
     }
 
     private void sortCarReportsByDate(List<Car> cars) {

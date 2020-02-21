@@ -46,21 +46,22 @@
                 <div style="clear: both;"></div>
             </a>
         </div>
-        <div id="title">Pokaż wszystkie</div>
+        <div id="title">Wynik wyszukiwania:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
+            <h2>Wynik wyszukiwania: </h2>
             <tr th:each="car:${cars}">
                 <div class="car">
                     Id:
                     <td th:text=${car.id}></td>
                     <br/> Rejestracja:
-                    <td th:text=${car.regTable}></td>
+                    <td th:text=${car.regTable.toUpperCase()}></td>
                     <br/> Kolor:
-                    <td th:text=${car.color}></td>
+                    <td th:text=${car.color.toUpperCase()}></td>
                     <br/> Marka:
-                    <td th:text=${car.mark}></td>
+                    <td th:text=${car.mark.toUpperCase()}></td>
                     <br/> Model:
-                    <td th:text=${car.model}></td>
+                    <td th:text=${car.model.toUpperCase()}></td>
                     <br/> Ilość parkowań:
                     <td th:text="${car.amountPark}"></td>
                     <br/>
@@ -71,8 +72,6 @@
 
             </tr>
         </div>
-
-
         <div id="footer">Created by PCzech</div>
     </div>
 
