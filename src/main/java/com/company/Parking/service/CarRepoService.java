@@ -137,9 +137,20 @@ public class CarRepoService {
                 return searchCarsById(content);
             case "Numer rejestracji":
                 return searchCarsByRegTable(content);
+            case "Kolor":
+                return searchCarByColor(content);
             default:
                 return Arrays.asList();
         }
+    }
+
+    private List<Car> searchCarByColor(String color) {
+        try {
+            return carRepository.findAllByColor(color.replaceAll(" ",""));
+        } catch (Exception e) {
+            log.error("Error during finding cars by color", e);
+        }
+        return new ArrayList<>();
     }
 
     private List<Car> searchCarsByRegTable(String regTable) {

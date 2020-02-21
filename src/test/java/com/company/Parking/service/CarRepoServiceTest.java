@@ -237,4 +237,27 @@ public class CarRepoServiceTest {
         assertTrue(result.contains(car2));
 
     }
+
+    @Test
+    public void searchCarByFieldTest_byColor(){
+        //given
+        Car car1 = new Car();
+        Car car2 = new Car();
+        Car car3 = new Car();
+
+        car1.setColor("qwerty");
+        car1.setColor("qwerty1");
+        car1.setColor("qwerty2");
+
+        String color = "qwerty";
+        String field = "Kolor";
+
+        //when
+        when(carRepository.findAllByColor(color)).thenReturn(Arrays.asList(car1));
+        List<Car> result = carService.searchCarByField(field, color);
+        //then
+        assertThat(result, hasSize(1));
+        assertTrue(result.contains(car1));
+
+    }
 }
