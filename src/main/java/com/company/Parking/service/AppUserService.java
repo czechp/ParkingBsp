@@ -1,0 +1,30 @@
+package com.company.Parking.service;
+
+import com.company.Parking.model.AppUser;
+import com.company.Parking.repository.AppUserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+@Slf4j
+public class AppUserService {
+
+    private AppUserRepository appUserRepository;
+
+    @Autowired
+    public AppUserService(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
+
+    public Optional<AppUser> findByUsername(String username){
+        try {
+            return appUserRepository.findByUsername(username);
+        } catch (Exception e) {
+            log.error("Error during getting user by username",e);
+        }
+        return Optional.empty();
+    }
+}

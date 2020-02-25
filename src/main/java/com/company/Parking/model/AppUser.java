@@ -1,15 +1,30 @@
 package com.company.Parking.model;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Data
-public class AppUser {
+public class AppUser implements UserDetails {
+
+    @Transient
+    private final String USER_ROLE = "USER";
+
+    @Transient
+    private final String ADMIN_ROLE = "ADMIN";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
 
     @NotNull
     @NotBlank
@@ -30,14 +45,47 @@ public class AppUser {
     private boolean adminVerification;
 
 
-    private boolean enable;
-
     public AppUser() {
+        this.role = USER_ROLE;
     }
 
     public AppUser(@NotNull @NotBlank String username, @NotNull @NotBlank String password, @Email @NotNull String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = USER_ROLE;
+    }
+
+    public void setAdminRole() {
+        this.role = ADMIN_ROLE;
+    }
+
+    public void setUserRole() {
+        this.role = USER_ROLE;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_".concat(role)));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return emailVerification && adminVerification;
     }
 }
