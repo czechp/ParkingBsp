@@ -27,4 +27,32 @@ public class AppUserService {
         }
         return Optional.empty();
     }
+
+    public boolean existsByUserName(String username) {
+        try {
+            return appUserRepository.existsByUsername(username);
+        } catch (Exception e) {
+            log.error("Error during checking exists by username");
+        }
+        return false;
+    }
+
+    public boolean existsByEmail(String email){
+        try {
+            return appUserRepository.existsByEmail(email);
+        } catch (Exception e) {
+            log.error("Error during checking exists user by email");
+        }
+
+        return false;
+    }
+
+    public void createUser(AppUser user) {
+        try {
+            appUserRepository.save(user);
+        } catch (Exception e) {
+            log.error("Error during saving new user", e);
+        }
+    }
 }
+

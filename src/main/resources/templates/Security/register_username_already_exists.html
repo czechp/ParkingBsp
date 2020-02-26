@@ -46,20 +46,10 @@
                 <div style="clear: both;"></div>
             </a>
         </div>
-        <div id="title">Login:</div>
+        <div id="title">Rejestracja:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <h2>Rejestracja: </h2>
-            <div class="entryform">
-                <!-- ADD TH TO FIELD  -->
-                <form method="POST" th:object="${user}" th:action="@{/register}">
-                    Nazwa użytkownika: <br>
-                    <input type="text" th:field="*{username}"><br> Email: <br>
-                    <input type="email" th:field="*{email}"><br> Hasło: <br>
-                    <input type="password" th:field="*{password}"><br>
-                    <input type="submit" th:value="Rejestruj">
-                </form>
-            </div>
+            <div class="message"> Użytkownik o takiej nazwie już istnieje</div>
         </div>
 
 
