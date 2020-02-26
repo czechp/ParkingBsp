@@ -49,17 +49,14 @@
         <div id="title">Login:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <h2>Logowanie: </h2>
+            <h2>Rejestracja: </h2>
             <div class="entryform">
-                <form method="post" th:action="@{/login}">
-                    Login: <br>
-                    <input type="text" name="username"> <br> Hasło: <br>
-                    <input type="password" name="password"><br><br>
-                    <input type="submit" value="Zaloguj"><br><br>
-                </form>
-                <form action="GET" th:action="@{/register_form}">
-                    Jeżeli nie posiadasz konta zarejestruj się tutaj: <br><br>
-                    <input type="submit" value="Rejestracja">
+                <form method="POST" th:object="${user}" th:action="@{/register}">
+                    Nazwa użytkownika: <br>
+                    <input type="text" field="*{username}"><br> Email: <br>
+                    <input type="email" field="*{email}"><br> Haslo: <br>
+                    <input type="password" field="*{password}"><br>
+                    <input type="submit" value="Rejestruj">
                 </form>
             </div>
         </div>
