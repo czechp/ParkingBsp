@@ -15,13 +15,6 @@ import java.util.Collections;
 @Entity
 @Data
 public class AppUser implements UserDetails {
-
-    @Transient
-    private final String USER_ROLE = "USER";
-
-    @Transient
-    private final String ADMIN_ROLE = "ADMIN";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
@@ -46,22 +39,22 @@ public class AppUser implements UserDetails {
 
 
     public AppUser() {
-        this.role = USER_ROLE;
+        this.role = UserRoles.USER.getRoleName();
     }
 
     public AppUser(@NotNull @NotBlank String username, @NotNull @NotBlank String password, @Email @NotNull String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.role = USER_ROLE;
+        this.role = UserRoles.USER.getRoleName();
     }
 
     public void setAdminRole() {
-        this.role = ADMIN_ROLE;
+        this.role = UserRoles.ADMIN.getRoleName();
     }
 
     public void setUserRole() {
-        this.role = USER_ROLE;
+        this.role = UserRoles.USER.getRoleName();
     }
 
     @Override
