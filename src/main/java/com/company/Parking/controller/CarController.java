@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -45,12 +46,11 @@ public class CarController {
     }
 
 
-    //ADD PRINCIPAL
     @PostMapping("/added")
-    public String addedNewCar(@ModelAttribute @Valid Car car, Errors errors) {
+    public String addedNewCar(@ModelAttribute @Valid Car car, Errors errors, Principal principal) {
         if (errors.hasErrors())
             return "Add/add_failure_data_incorrect";
-        else if (!carRepoService.createCar(car, new Report("Unknown")))
+        else if (!carRepoService.createCar(car, new Report(principal.getName())))
             return "Add/entry_already_added";
         return "redirect:/";
     }
@@ -63,7 +63,7 @@ public class CarController {
     }
 
 
-    //ADD PRINCIPAL
+    //ADD Permission
     @GetMapping("/car_delete_all")
     public String carDeleteAll(@RequestParam(name = "reg_table") String regTable) {
         if (carRepoService.deleteCarByRegTable(regTable))
@@ -71,7 +71,7 @@ public class CarController {
         return "Delete/car_deleted_failed";
     }
 
-    //ADD PRINCIPAL
+    //ADD Permission
     @GetMapping("/car_delete_details")
     public ModelAndView carDeleteDetails(@RequestParam(name = "reg_table") String reg) {
         Optional<Car> carByRegTable = carRepoService.getCarByRegTable(reg);
@@ -84,7 +84,7 @@ public class CarController {
         return modelAndView;
     }
 
-    //ADD PRINCIPAL
+    //ADD Permission
     @GetMapping("/car_delete_details_deleted")
     public String carDeleteDetailDeleted(@RequestParam(name = "reportDate") String reportDate, @RequestParam(name = "regTable") String regTable) {
         if (carRepoService.deleteReportFromCar(regTable, ConvertionService.stringToLocalDate(reportDate)))

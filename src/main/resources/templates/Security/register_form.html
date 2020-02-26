@@ -46,20 +46,22 @@
                 <div style="clear: both;"></div>
             </a>
         </div>
-        <div id="title">Usuń raporty:</div>
+        <div id="title">Login:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <form th:object="${carDetails}" method="GET" th:action="@{/car_delete_details_deleted}">
-                Lista raportów dla auta o rejestracji: <br/>
-                <input type="text" th:value = "*{regTable}" th:name="regTable" readonly="true" style="height: fit-content; font-size: 30px; text-align: center; background-color: black; color: white;">
-                <div class="entryform">
-                    <select th:name="reportDate">
-                        <option th:each="report : *{reports}" th:value=${report.date} th:text=${report.date}></option>
-                    </select>
-                    <input type="submit" value="Usuń" />
-                </div>
-            </form>
+            <h2>Rejestracja: </h2>
+            <div class="entryform">
+                <form method="POST" th:object="${user}" th:action="@{/register}">
+                    Nazwa użytkownika: <br>
+                    <input type="text" field="*{username}"><br> Email: <br>
+                    <input type="email" field="*{email}"><br> Haslo: <br>
+                    <input type="password" field="*{password}"><br>
+                    <input type="submit" value="Rejestruj">
+                </form>
+            </div>
         </div>
+
+
         <div id="footer">Created by PCzech</div>
     </div>
 

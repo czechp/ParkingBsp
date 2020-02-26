@@ -24,13 +24,13 @@
             <a th:href="@{/add}">
                 <div class="option">Dodaj</div>
             </a>
-            <a th:href="@{/car_delete}">
+            <a th:href="@{car_delete}">
                 <div class="option">Usuń</div>
             </a>
             <a th:href="@{/car_modify}">
                 <div class="option">Modyfikuj</div>
             </a>
-            <a th:href="@{/car_search}">
+            <a href="">
                 <div class="option">Szukaj</div>
             </a>
             <a href="">
@@ -46,20 +46,15 @@
                 <div style="clear: both;"></div>
             </a>
         </div>
-        <div id="title">Usuń raporty:</div>
+        <div id="title">Error</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <form th:object="${carDetails}" method="GET" th:action="@{/car_delete_details_deleted}">
-                Lista raportów dla auta o rejestracji: <br/>
-                <input type="text" th:value = "*{regTable}" th:name="regTable" readonly="true" style="height: fit-content; font-size: 30px; text-align: center; background-color: black; color: white;">
-                <div class="entryform">
-                    <select th:name="reportDate">
-                        <option th:each="report : *{reports}" th:value=${report.date} th:text=${report.date}></option>
-                    </select>
-                    <input type="submit" value="Usuń" />
-                </div>
-            </form>
+            <div class="message">
+                Nie masz wystarczających uprawnień !!!
+            </div>
         </div>
+
+
         <div id="footer">Created by PCzech</div>
     </div>
 
