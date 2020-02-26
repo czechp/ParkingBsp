@@ -33,9 +33,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/car_delete_details_deleted", "/car_delete_all").hasRole("ADMIN")
+                .antMatchers("/style.css").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
-                .formLogin().permitAll()
+                .formLogin().loginPage("/login").permitAll()
                 .and()
                 .logout();
 
