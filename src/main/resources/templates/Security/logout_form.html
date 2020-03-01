@@ -39,17 +39,17 @@
             <a href="">
                 <div class="option">Panel admina</div>
             </a>
-            <a href="">
+            <a th:href="@{/logout_form}">
                 <div class="option">Wyloguj</div>
             </a>
-            <a href="">
+            <a href="#">
                 <div style="clear: both;"></div>
             </a>
         </div>
         <div id="title">Login:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <h2>Logowanie: </h2>
+            <h2>Wyloguj: </h2>
             <div class="entryform">
 
                 <form method="POST" th:action="@{/logout}" style="display: inline; padding: 10px;">
