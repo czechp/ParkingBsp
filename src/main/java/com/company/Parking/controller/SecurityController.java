@@ -28,6 +28,16 @@ public class SecurityController {
         return "Security/login";
     }
 
+    @RequestMapping("/logout")
+    public String logout(){
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout_form")
+    public String logoutForm(){
+        return "Security/logout_form";
+    }
+
     @GetMapping("/register_form")
     public ModelAndView registerForm(){
         return new ModelAndView("Security/register_form", "user", new AppUser());

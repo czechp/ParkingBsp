@@ -1,0 +1,73 @@
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Parking - automatycy</title>
+    <meta name="Parking - automatycy" content="Parking - automatycy">
+    <meta name="PCzech" content="SitePoint">
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}">
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="topbar">
+            <h1>Parking - automatycy</h1>
+        </div>
+        <div id="menu">
+            <a th:href="@{/}">
+                <div class="option">Pokaż wszystkie</div>
+            </a>
+            <a th:href="@{/add}">
+                <div class="option">Dodaj</div>
+            </a>
+            <a th:href="@{/car_delete}">
+                <div class="option">Usuń</div>
+            </a>
+            <a th:href="@{/car_modify}">
+                <div class="option">Modyfikuj</div>
+            </a>
+            <a th:href="@{/car_search}">
+                <div class="option">Szukaj</div>
+            </a>
+            <a href="">
+                <div class="option">Użytkownicy</div>
+            </a>
+            <a href="">
+                <div class="option">Panel admina</div>
+            </a>
+            <a href="">
+                <div class="option">Wyloguj</div>
+            </a>
+            <a href="">
+                <div style="clear: both;"></div>
+            </a>
+        </div>
+        <div id="title">Login:</div>
+        <div id="login">Login:</div>
+        <div id="content" style="text-align: center">
+            <h2>Logowanie: </h2>
+            <div class="entryform">
+
+                <form method="POST" th:action="@{/logout}" style="display: inline; padding: 10px;">
+                    <div style="padding: 10px;">Czy jesteś pewny, że chcesz się wylogować ?</div>
+                    <input type="submit" value="Tak">
+                </form>
+
+
+                <form method="GET" style="display: inline; padding: 10px;"> <input type="submit" value="Nie" formaction="/"></form>
+
+            </div>
+        </div>
+
+
+        <div id="footer">Created by PCzech</div>
+    </div>
+
+
+</body>
+
+</html>
