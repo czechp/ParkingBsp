@@ -1,18 +1,20 @@
 package com.company.Parking;
 
-import com.company.Parking.configuration.PasswordEncoderConfiguration;
 import com.company.Parking.model.AppUser;
 import com.company.Parking.model.Car;
 import com.company.Parking.model.Report;
+import com.company.Parking.model.VerifiactionToken;
 import com.company.Parking.repository.AppUserRepository;
 import com.company.Parking.repository.CarRepository;
 import com.company.Parking.repository.ReportRepository;
+import com.company.Parking.repository.VerificationTokenRepository;
 import com.company.Parking.service.CarRepoService;
+import com.company.Parking.service.EmailSenderThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -24,14 +26,18 @@ public class Test {
     private CarRepoService carService;
     private AppUserRepository appUserRepository;
     private PasswordEncoder passwordEncoder;
+    private JavaMailSender javaMailSender;
+    private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    public Test(CarRepository carRepository, ReportRepository reportRepository, CarRepoService carService, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
+    public Test(CarRepository carRepository, ReportRepository reportRepository, CarRepoService carService, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, JavaMailSender javaMailSender, VerificationTokenRepository verificationTokenRepository) {
         this.carRepository = carRepository;
         this.reportRepository = reportRepository;
         this.carService = carService;
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.javaMailSender = javaMailSender;
+        this.verificationTokenRepository = verificationTokenRepository;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -53,5 +59,9 @@ public class Test {
         user.setEmailVerification(true);
         user.setAdminVerification(true);
         appUserRepository.save(user);
+
+        VerifiactionToken verifiactionToken = new VerifiactionToken(car);
+        verificationTokenRepository.save(verifiactionToken);
+        System.out.println(verificationTokenRepository.findAll());
     }
 }
