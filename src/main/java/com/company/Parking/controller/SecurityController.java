@@ -53,6 +53,7 @@ public class SecurityController {
             return "Security/register_email_already_exists";
         else {
             appUserService.createUser(user);
+
             return "Security/register_successful";
         }
     }
