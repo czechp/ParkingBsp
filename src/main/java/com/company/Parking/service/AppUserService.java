@@ -47,12 +47,22 @@ public class AppUserService {
         return false;
     }
 
-    public void createUser(AppUser user) {
+    public void saveUser(AppUser user) {
         try {
             appUserRepository.save(user);
         } catch (Exception e) {
             log.error("Error during saving new user", e);
         }
+    }
+
+    public Optional<AppUser> findById(long id) {
+        try {
+            return appUserRepository.findById(id);
+        } catch (Exception e) {
+            log.error("Error during finding user by id", e);
+        }
+
+        return Optional.empty();
     }
 }
 

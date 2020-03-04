@@ -3,13 +3,12 @@ package com.company.Parking;
 import com.company.Parking.model.AppUser;
 import com.company.Parking.model.Car;
 import com.company.Parking.model.Report;
-import com.company.Parking.model.VerifiactionToken;
+import com.company.Parking.model.VerificationToken;
 import com.company.Parking.repository.AppUserRepository;
 import com.company.Parking.repository.CarRepository;
 import com.company.Parking.repository.ReportRepository;
 import com.company.Parking.repository.VerificationTokenRepository;
 import com.company.Parking.service.CarRepoService;
-import com.company.Parking.service.EmailSenderThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
@@ -55,13 +54,12 @@ public class Test {
         carRepository.save(car);
         carRepository.save(car1);
 
-        AppUser user = new AppUser("admin", passwordEncoder.encode("admin"), "webcoderc@gmail.com");
+        AppUser user = new AppUser("admin", passwordEncoder.encode("admin"), "webcoderc123@gmail.com");
         user.setEmailVerification(true);
         user.setAdminVerification(true);
         appUserRepository.save(user);
 
-        VerifiactionToken verifiactionToken = new VerifiactionToken(car);
-        verificationTokenRepository.save(verifiactionToken);
-        System.out.println(verificationTokenRepository.findAll());
+        VerificationToken verificationToken = new VerificationToken(user);
+        verificationTokenRepository.save(verificationToken);
     }
 }

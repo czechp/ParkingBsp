@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "tokens")
 @Data
-public class VerifiactionToken {
+public class VerificationToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +19,13 @@ public class VerifiactionToken {
     private String token;
 
     @OneToOne
-    private Car car;
+    private AppUser appUser;
 
-    public VerifiactionToken() {
+    public VerificationToken() {
     }
 
-    public VerifiactionToken(Car car) {
+    public VerificationToken(AppUser appUser) {
         this.token = UUID.randomUUID().toString();
-        this.car = car;
+        this.appUser = appUser;
     }
 }
