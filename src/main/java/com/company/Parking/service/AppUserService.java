@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,6 +65,17 @@ public class AppUserService {
         }
 
         return Optional.empty();
+    }
+
+    public List<AppUser> findAll() {
+        try {
+            return appUserRepository.findAll();
+        } catch (Exception e) {
+            log.error("Error during getting all users", e);
+        }
+
+
+        return new ArrayList<>();
     }
 }
 
