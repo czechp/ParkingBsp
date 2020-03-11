@@ -24,7 +24,7 @@
             <a th:href="@{/add}">
                 <div class="option">Dodaj</div>
             </a>
-            <a th:href="@{car_delete}">
+            <a th:href="@{/car_delete}">
                 <div class="option">Usuń</div>
             </a>
             <a th:href="@{/car_modify}">
@@ -46,10 +46,21 @@
                 <div style="clear: both;"></div>
             </a>
         </div>
-        <div id="title">Obiekt usunięty</div>
+        <div id="title">Login:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <div class="message">Obiekt usunięty</div>
+            <h2>Wyloguj: </h2>
+            <div class="entryform">
+
+                <form method="POST" th:action="@{/logout}" style="display: inline; padding: 10px;">
+                    <div style="padding: 10px;">Czy jesteś pewny, że chcesz się wylogować ?</div>
+                    <input type="submit" value="Tak">
+                </form>
+
+
+                <form method="GET" style="display: inline; padding: 10px;"> <input type="submit" value="Nie" formaction="/"></form>
+
+            </div>
         </div>
 
 

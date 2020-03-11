@@ -39,10 +39,10 @@
             <a href="">
                 <div class="option">Panel admina</div>
             </a>
-            <a href="">
+            <a th:href="@{/logout_form}">
                 <div class="option">Wyloguj</div>
             </a>
-            <a href="">
+            <a href="#">
                 <div style="clear: both;"></div>
             </a>
         </div>
@@ -51,12 +51,13 @@
         <div id="content" style="text-align: center">
             <h2>Rejestracja: </h2>
             <div class="entryform">
+                <!-- ADD TH TO FIELD  -->
                 <form method="POST" th:object="${user}" th:action="@{/register}">
                     Nazwa użytkownika: <br>
-                    <input type="text" field="*{username}"><br> Email: <br>
-                    <input type="email" field="*{email}"><br> Haslo: <br>
-                    <input type="password" field="*{password}"><br>
-                    <input type="submit" value="Rejestruj">
+                    <input type="text" th:field="*{username}"><br> Email: <br>
+                    <input type="email" th:field="*{email}"><br> Hasło: <br>
+                    <input type="password" th:field="*{password}"><br>
+                    <input type="submit" th:value="Rejestruj">
                 </form>
             </div>
         </div>

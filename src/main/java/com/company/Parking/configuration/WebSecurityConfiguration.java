@@ -33,12 +33,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/car_delete_details_deleted", "/car_delete_all").hasRole("ADMIN")
-                .antMatchers("/style.css", "/register_form", "/register").permitAll()
+                .antMatchers("/style.css", "/register_form", "/register", "/verify_token").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").permitAll();
 
     }
 }
