@@ -120,6 +120,21 @@ a:active {
     color: blue;
 }
 
+.user {
+    border: 2px solid white;
+    border-radius: 10px;
+    width: 300px;
+    padding: 20px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.user:hover {
+    background-color: silver;
+    color: blue;
+}
+
 .report {
     border: 2px solid white;
     border-radius: 10px;

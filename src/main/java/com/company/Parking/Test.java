@@ -8,6 +8,7 @@ import com.company.Parking.repository.AppUserRepository;
 import com.company.Parking.repository.CarRepository;
 import com.company.Parking.repository.ReportRepository;
 import com.company.Parking.repository.VerificationTokenRepository;
+import com.company.Parking.service.AppUserService;
 import com.company.Parking.service.CarRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -27,9 +28,10 @@ public class Test {
     private PasswordEncoder passwordEncoder;
     private JavaMailSender javaMailSender;
     private VerificationTokenRepository verificationTokenRepository;
+    private AppUserService appUserService;
 
     @Autowired
-    public Test(CarRepository carRepository, ReportRepository reportRepository, CarRepoService carService, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, JavaMailSender javaMailSender, VerificationTokenRepository verificationTokenRepository) {
+    public Test(CarRepository carRepository, ReportRepository reportRepository, CarRepoService carService, AppUserRepository appUserRepository, PasswordEncoder passwordEncoder, JavaMailSender javaMailSender, VerificationTokenRepository verificationTokenRepository, AppUserService appUserService) {
         this.carRepository = carRepository;
         this.reportRepository = reportRepository;
         this.carService = carService;
@@ -37,7 +39,9 @@ public class Test {
         this.passwordEncoder = passwordEncoder;
         this.javaMailSender = javaMailSender;
         this.verificationTokenRepository = verificationTokenRepository;
+        this.appUserService = appUserService;
     }
+
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
@@ -55,11 +59,16 @@ public class Test {
         carRepository.save(car1);
 
         AppUser user = new AppUser("admin", passwordEncoder.encode("admin"), "webcoderc123@gmail.com");
+        AppUser user1 = new AppUser("user", passwordEncoder.encode("user"), "wer12345@gmail.com");
         user.setEmailVerification(true);
         user.setAdminVerification(true);
-        appUserRepository.save(user);
+        user.setAdminRole();
+        
+        appUserService.saveUser(user);
+        appUserService.saveUser(user1);
 
-        VerificationToken verificationToken = new VerificationToken(user);
-        verificationTokenRepository.save(verificationToken);
+
+        System.out.println(appUserService.findAll());
+
     }
 }
