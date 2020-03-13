@@ -77,5 +77,15 @@ public class AppUserService {
 
         return new ArrayList<>();
     }
+
+    public List<AppUser> findAllByAdminVerification(boolean status){
+        try {
+            return appUserRepository.findAllByAdminVerification(status);
+        } catch (Exception e) {
+            log.error("Error during getting users by admin verification", e);
+        }
+
+        return new ArrayList<>();
+    }
 }
 

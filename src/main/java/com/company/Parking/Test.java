@@ -68,7 +68,5 @@ public class Test {
         appUserService.saveUser(user1);
 
 
-        System.out.println(appUserService.findAll());
-
     }
 }

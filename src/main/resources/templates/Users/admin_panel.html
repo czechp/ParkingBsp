@@ -50,9 +50,41 @@
         <div id="title">Panel admina:</div>
         <div id="login">Login:</div>
         <div id="content" style="text-align: center">
-            <h1>Testowanie</h1>
-        </div>
 
+            <h2>Użytkownicy zaakceptowani:</h2>
+            <div th:each="enabledUser : ${enabledUsers}">
+                <div class="user">
+                    Id:
+                    <span th:text="${enabledUser.id}"></span> <br> Nazwa użytkownika: <span th:text="${enabledUser.username} "></span> <br> E-mail: <span th:text="${enabledUser.email} "></span> <br> Rola: <span th:text=${enabledUser.role}></span><br>
+
+                    <form method="GET">
+                        <input type="hidden" name="id" th:value="${enabledUser.id}">
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Dezaktywuj" th:formaction="@{/disable_user}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Set - Admin" th:formaction="@{/set_admin}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Set - User" th:formaction="@{/set_user}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Usuń" th:formaction="@{/delete_user}"><br>
+                    </form>
+                </div>
+            </div>
+
+            <h2>Użytkownicy nie zaakceptowani:</h2>
+            <div th:each="disabledUser : ${disabledUsers}">
+                <div class="user">
+                    Id:
+                    <span th:text="${disabledUser.id}"></span> <br> Nazwa użytkownika: <span th:text="${disabledUser.username} "></span> <br> E-mail: <span th:text="${disabledUser.email} "></span> <br> Rola: <span th:text=${disabledUser.role}></span><br>
+
+                    <form method="GET">
+                        <input type="hidden" name="id" th:value="${disabledUser.id}">
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Aktywuj" th:formaction="@{/enable_user}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Set - Admin" th:formaction="@{/set_admin}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Set - User" th:formaction="@{/set_user}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Usuń" th:formaction="@{/delete_user}"><br>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
 
         <div id="footer">Created by PCzech</div>
     </div>
