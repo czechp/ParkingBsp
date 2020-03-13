@@ -61,7 +61,7 @@ public class SecurityController {
             VerificationToken verificationToken = new VerificationToken(user);
             verificationTokenService.saveNewToken(verificationToken);
             javaMailSenderService.sendVerification(user, verificationToken, servletRequest);
-
+            javaMailSenderService.sendNotifyAboutNewUser(user);
             return "Security/register_successful";
         }
     }

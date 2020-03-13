@@ -5,6 +5,7 @@ import com.company.Parking.model.Report;
 import com.company.Parking.service.CarRepoService;
 import com.company.Parking.service.CarService;
 import com.company.Parking.service.ConvertionService;
+import com.company.Parking.service.JavaMailSenderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,11 +24,13 @@ public class CarController {
 
     CarRepoService carRepoService;
     CarService carService;
+    JavaMailSenderService javaMailSenderService;
 
     @Autowired
-    public CarController(CarRepoService carRepoService, CarService carService) {
+    public CarController(CarRepoService carRepoService, CarService carService, JavaMailSenderService javaMailSenderService) {
         this.carRepoService = carRepoService;
         this.carService = carService;
+        this.javaMailSenderService = javaMailSenderService;
     }
 
     @GetMapping
@@ -50,8 +53,11 @@ public class CarController {
     public String addedNewCar(@ModelAttribute @Valid Car car, Errors errors, Principal principal) {
         if (errors.hasErrors())
             return "Add/add_failure_data_incorrect";
-        else if (!carRepoService.createCar(car, new Report(principal.getName())))
+        else if (!carRepoService.createCar(car, new Report(principal.getName()))){
             return "Add/entry_already_added";
+        }
+
+        javaMailSenderService.sendNotifyAboutNewCar(car);
         return "redirect:/";
     }
 

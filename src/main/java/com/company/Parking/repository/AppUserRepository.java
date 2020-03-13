@@ -13,4 +13,5 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
     List<AppUser> findAllByAdminVerification(boolean status);
+    List<AppUser> findAllByRole(String role);
 }
