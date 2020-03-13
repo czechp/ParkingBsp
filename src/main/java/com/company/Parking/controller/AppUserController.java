@@ -21,4 +21,10 @@ public class AppUserController {
         modelAndView.addObject("users", appUserService.findAll());
         return modelAndView;
     }
+
+    @GetMapping("/admin_panel")
+    public ModelAndView getAdminPanel(){
+        ModelAndView modelAndView = new ModelAndView("Users/admin_panel");
+        return modelAndView;
+    }
 }
