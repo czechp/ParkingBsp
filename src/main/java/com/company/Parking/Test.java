@@ -58,7 +58,7 @@ public class Test {
         carRepository.save(car);
         carRepository.save(car1);
 
-        AppUser user = new AppUser("admin", passwordEncoder.encode("admin"), "webcoderc123@gmail.com");
+        AppUser user = new AppUser("admin", passwordEncoder.encode("admin"), "webcoderc@gmail.com");
         AppUser user1 = new AppUser("user", passwordEncoder.encode("user"), "wer12345@gmail.com");
         user.setEmailVerification(true);
         user.setAdminVerification(true);
@@ -67,8 +67,6 @@ public class Test {
         appUserService.saveUser(user);
         appUserService.saveUser(user1);
 
-
-        System.out.println(appUserService.findAll());
 
     }
 }

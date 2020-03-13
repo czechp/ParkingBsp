@@ -1,0 +1,95 @@
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Parking - automatycy</title>
+    <meta name="Parking - automatycy" content="Parking - automatycy">
+    <meta name="PCzech" content="SitePoint">
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}">
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="topbar">
+            <h1>Parking - automatycy</h1>
+        </div>
+        <div id="menu">
+            <a th:href="@{/}">
+                <div class="option">Pokaż wszystkie</div>
+            </a>
+            <a th:href="@{/add}">
+                <div class="option">Dodaj</div>
+            </a>
+            <a th:href="@{/car_delete}">
+                <div class="option">Usuń</div>
+            </a>
+            <a th:href="@{/car_modify}">
+                <div class="option">Modyfikuj</div>
+            </a>
+            <a th:href="@{/car_search}">
+                <div class="option">Szukaj</div>
+            </a>
+            <a th:href="@{/users}">
+                <div class="option">Użytkownicy</div>
+            </a>
+            <a th:href="@{/admin_panel}">
+                <div class="option">Panel admina</div>
+            </a>
+            <a th:href="@{/logout_form}">
+                <div class="option">Wyloguj</div>
+            </a>
+            <a href="#">
+                <div style="clear: both;"></div>
+            </a>
+
+        </div>
+        <div id="title">Panel admina:</div>
+        <div id="login">Login:</div>
+        <div id="content" style="text-align: center">
+
+            <h2>Użytkownicy zaakceptowani:</h2>
+            <div th:each="enabledUser : ${enabledUsers}">
+                <div class="user">
+                    Id:
+                    <span th:text="${enabledUser.id}"></span> <br> Nazwa użytkownika: <span th:text="${enabledUser.username} "></span> <br> E-mail: <span th:text="${enabledUser.email} "></span> <br> Rola: <span th:text=${enabledUser.role}></span><br>
+
+                    <form method="GET">
+                        <input type="hidden" name="id" th:value="${enabledUser.id}">
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Dezaktywuj" th:formaction="@{/disable_user}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Set - Admin" th:formaction="@{/set_admin}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Set - User" th:formaction="@{/set_user}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Usuń" th:formaction="@{/delete_user}"><br>
+                    </form>
+                </div>
+            </div>
+
+            <h2>Użytkownicy nie zaakceptowani:</h2>
+            <div th:each="disabledUser : ${disabledUsers}">
+                <div class="user">
+                    Id:
+                    <span th:text="${disabledUser.id}"></span> <br> Nazwa użytkownika: <span th:text="${disabledUser.username} "></span> <br> E-mail: <span th:text="${disabledUser.email} "></span> <br> Rola: <span th:text=${disabledUser.role}></span><br>
+
+                    <form method="GET">
+                        <input type="hidden" name="id" th:value="${disabledUser.id}">
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Aktywuj" th:formaction="@{/enable_user}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Set - Admin" th:formaction="@{/set_admin}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Set - User" th:formaction="@{/set_user}"><br>
+                        <input type="submit" style="margin-bottom: 5px; margin-top: 5px; width: 200px; " value="Usuń" th:formaction="@{/delete_user}"><br>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="footer">Created by PCzech</div>
+    </div>
+
+
+</body>
+
+</html>
